@@ -1,29 +1,27 @@
-package com.ceatformacion.libropsi.entity;
+package com.ceatformacion.libropsi.modell;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 @Entity
 public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long id;
+    private int id_libro;
     private String titulo;
     private String autor;
     private String genero ;
-    private String imagen;
     private String editorial;
     private int paginas;
 
-    public Long getId() {
-        return id;
+    public int getId() {
+        return id_libro;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(int id) {
+        this.id_libro = id;
     }
 
     public String getTitulo() {
@@ -50,14 +48,6 @@ public class Libro {
         this.genero = genero;
     }
 
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
     public String getEditorial() {
         return editorial;
     }
@@ -74,15 +64,27 @@ public class Libro {
         this.paginas = paginas;
     }
 
+
     @Override
     public String toString() {
-        return "Libro->" +
-                "Id: " + id +
-                "Titulo: " + titulo + '\'' +
-                "Autor: " + autor + '\'' +
-                "Genero: " + genero + '\'' +
-                "Imagen: " + imagen + '\'' +
-                "Editorial: " + editorial + '\'' +
-                "Paginas: " + paginas;
+        return "Libro{" +
+                "id_libro=" + id_libro +
+                ", titulo='" + titulo + '\'' +
+                ", autor='" + autor + '\'' +
+                ", genero='" + genero + '\'' +
+                ", editorial='" + editorial + '\'' +
+                ", historial=" + historial +
+                '}';
+    }
+
+    @OneToMany(mappedBy = "libro")
+    private Collection<Historial> historial;
+
+    public Collection<Historial> getHistorial() {
+        return historial;
+    }
+
+    public void setHistorial(Collection<Historial> historial) {
+        this.historial = historial;
     }
 }

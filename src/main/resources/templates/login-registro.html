@@ -8,176 +8,210 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <style>
         body {
-            margin: 0;
             font-family: 'Georgia', serif;
+            background-color: #f2e6d9;
             color: #3e2f1c;
-            background-color: #cbb48a;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
         }
 
-        .form-container {
-            max-width: 400px;
-            background: rgba(242, 230, 217, 0.95); /* casi sólido para mejor legibilidad */
-            padding: 30px 40px;
+        form {
+            background: rgba(242, 230, 217, 0.9);
+            padding: 25px 35px;
             border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); /* sombra suave y amplia para destacar */
+            box-shadow: 0 0 20px rgba(163, 123, 91, 0.6);
+            max-width: 400px;
+            width: 100%;
             box-sizing: border-box;
+            margin-bottom: 20px;
             text-align: center;
-            position: relative;
-            z-index: 10;
-            border: 1px solid #b8976a; /* borde sutil */
         }
 
-        /* Cabecera (título + imagen) */
-        .form-container > div:first-child {
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* Título "INICIO SESIÓN" */
-        .form-container > div:first-child > span {
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-shadow: 1px 1px 3px #d9c4a0;
-            color: #4a3a1a;
-        }
-
-        /* Imagen libros.png junto al título */
-        .form-container > div:first-child > img {
-            height: 100px;
-        }
-
-        /* Labels */
-        .form-label {
+        label {
             display: block;
-            text-align: center;
             font-weight: bold;
-            color: #5a4421;
+            margin-bottom: 6px;
             text-shadow: 1px 1px 1px #f2e6d9;
-            margin-bottom: 8px;
         }
 
-        /* Inputs con borde color madera */
-        .form-control {
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 15px;
             border: 2px solid #a67c3c;
             border-radius: 6px;
             font-family: 'Georgia', serif;
-            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
             transition: border-color 0.3s ease;
+            font-size: 1em;
         }
 
-        .form-control:focus {
+        input:focus, select:focus {
             border-color: #7c5a1c;
             box-shadow: 0 0 8px #c19a6b;
             outline: none;
         }
 
-        /* Input group icons background */
-        .input-group-text {
-            background-color: #c19a6b;
-            color: #fff;
-            border: none;
-            border-radius: 6px 0 0 6px;
-            font-size: 1.2rem;
-        }
-
-        /* Botón */
-        .btn-glass {
+        button {
             background: rgba(193, 154, 107, 0.85);
-            color: #fff;
+            color: white;
             font-weight: bold;
             border: none;
             border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
             box-shadow: 2px 2px 8px rgba(163, 123, 91, 0.7);
             transition: background-color 0.3s ease;
-            padding: 10px 25px;
-            font-size: 1.1rem;
-            cursor: pointer;
+            width: 100%;
         }
 
-        .btn-glass:hover {
+        button:hover {
             background: #a97b50;
-            color: #fff;
         }
 
-        /* Alertas de error y éxito */
-        .alert {
-            max-width: 400px;
-            margin: 20px auto;
-            font-family: 'Georgia', serif;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(163, 123, 91, 0.5);
+        #btnMostrarRegistro, #btnVolverLogin {
+            border: 2px solid #a67c3c;
             font-weight: bold;
+            max-width: 400px;
+            width: 100%;
+            padding: 12px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(163,123,91,0.5);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-bottom: 20px;
         }
 
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 2px solid #c19a6b;
+        #btnMostrarRegistro:hover, #btnVolverLogin:hover {
+            background-color: #a67c3c;
+            color: white;
+        }
+        #btnVolverLogin {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            cursor: pointer;
+            margin-top: 40px;
+            width: auto; /* que no ocupe todo el ancho */
         }
 
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 2px solid #a7c97a;
+        #btnVolverLogin img {
+            height: 60px; /* ajusta el tamaño del icono */
+            display: block;
         }
+        .header-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .header-login img {
+            height: 100px;
+        }
+
+        .input-icon {
+            display: flex;
+            align-items: center;
+            border: 2px solid #a67c3c;
+            border-radius: 6px;
+            padding: 6px 10px;
+            background: rgba(242, 230, 217, 0.9);
+            box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
+            margin-bottom: 15px;
+        }
+
+        .input-icon img {
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .input-icon input {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            font-family: 'Georgia', serif;
+            font-size: 1em;
+            background: transparent;
+        }
+
+
     </style>
 </head>
 <body>
-<div class="form-container shadow-sm">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-        <span style="font-size: 40px; font-weight: bold;">INICIO SESIÓN</span>
-        <img src="/images/libros.png" alt="Libros" style="height: 100px;">
-    </div>
-    <form th:action="@{/login}" method="post" novalidate>
-        <div class="mb-3">
-            <label for="usuario" class="form-label"><strong>USUARIO</strong></label>
-            <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                <input
-                        type="text"
-                        id="usuario"
-                        name="username"
-                        class="form-control"
-                        placeholder="Ingrese su usuario"
-                        required
-                        autofocus
-                />
-                <div class="invalid-feedback">Por favor, ingrese un usuario válido.</div>
-            </div>
-        </div>
-        <div class="mb-4">
-            <label for="password" class="form-label"><strong>CONTRASEÑA</strong></label>
-            <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Ingrese su contraseña"
-                        required
-                />
-                <div class="invalid-feedback">Por favor, ingrese su contraseña.</div>
-            </div>
-        </div>
-        <div class="d-grid">
-            <button type="submit" class="btn btn-glass btn-lg px-5">Entrar</button>
-        </div>
-        <div th:if="${param.error}" class="alert alert-danger">
-            El usuario o contraseña no es válido
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success">
-            Sesión de usuario cerrada!
-        </div>
-    </form>
-    
 
+<!-- FORMULARIO LOGIN -->
+<form id="formLogin" th:action="@{/login}" method="post" class="form-control p-5">
+    <div class="header-login">
+        <span style="font-size: 40px; font-weight: bold;"><strong>INICIO SESIÓN</strong></span>
+        <img src="/images/libros.png" alt="Libros" />
+    </div>
+    <label for="usuario">USUARIO</label>
+    <div class="input-icon">
+    <img src="/images/user.png"  alt="Icono Usuario">
+    <input type="text" id="User" name="username" placeholder="Ingrese su usuario" required autofocus />
+    </div>
+    <label for="contraseña">CONTRASEÑA</label>
+    <div class="input-icon">
+        <img src="/images/door-key.png" alt="Icono Contraseña">
+        <input type="password" id="contraseña" name="password" placeholder="Ingrese su contraseña" required />
+    </div>
+    <button type="submit">ENTRAR</button>
+</form>
+
+<!-- FORMULARIO REGISTRO OCULTO INICIALMENTE -->
+<form id="formRegistro" th:action="@{/registro}" method="post" class="form-control p-5" style="display:none;">
+    <h2><strong>REGISTRO DE USUARIO</strong></h2>
+    <img src="/images/libros.png" alt="Libros" style="height: 150px; margin-left: 10px;" />
+
+    <label for="usuario">NUEVO USUARIO</label>
+    <input type="text" id="usuario" name="username" required autofocus />
+
+    <label for="password">NUEVA CONTRASEÑA</label>
+    <input type="password" id="password" name="password" required />
+
+    <label for="rol">Rol</label>
+    <select id="rol" name="rol">
+        <option value=""></option>
+        <option value="Admin">Administrador</option>
+        <option value="User">Usuario</option>
+    </select>
+
+    <button type="submit">Registrarse</button>
+
+    <button type="button" id="btnVolverLogin">
+        <img src="/images/exit.png" alt="Salir"></button>
+
+</form>
+
+<!-- Botón para mostrar el registro, visible solo cuando el registro está oculto -->
+<button id="btnMostrarRegistro" class="btn-secondary" style="margin-top: 20px;">NUEVO USUARIO</button>
+
+<script>
+    const btnMostrarRegistro = document.getElementById('btnMostrarRegistro');
+    const btnVolverLogin = document.getElementById('btnVolverLogin');
+    const formLogin = document.getElementById('formLogin');
+    const formRegistro = document.getElementById('formRegistro');
+
+    btnMostrarRegistro.addEventListener('click', () => {
+        formLogin.style.display = 'none';
+        formRegistro.style.display = 'block';
+        btnMostrarRegistro.style.display = 'none'; // opcional, para ocultar el botón
+    });
+
+    btnVolverLogin.addEventListener('click', () => {
+        formRegistro.style.display = 'none';
+        formLogin.style.display = 'block';
+        btnMostrarRegistro.style.display = 'inline-block'; // vuelve a mostrar el botón
+    });
+</script>
 </body>
 </html>

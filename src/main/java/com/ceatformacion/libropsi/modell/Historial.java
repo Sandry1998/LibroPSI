@@ -1,4 +1,4 @@
-package com.ceatformacion.libropsi.entity;
+package com.ceatformacion.libropsi.modell;
 
 import jakarta.persistence.*;
 
@@ -15,7 +15,7 @@ public class Historial {
     private String observaciones;
 
     @ManyToOne
-    @JoinColumn(name = "id",nullable = false)
+    @JoinColumn(name = "id_libro",nullable = false)
     private Libro libro;
 
     public int getId_historial() {

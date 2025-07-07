@@ -1,6 +1,5 @@
-package com.ceatformacion.libropsi.entity;
+package com.ceatformacion.libropsi.modell;
 
-import com.ceatformacion.libropsi.services.UsuarioDetails;
 import jakarta.persistence.*;
 
 
@@ -9,17 +8,17 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id_usuario;
     private String username;
     private String password;
     private String rol;
 
-    public int getId() {
-        return id;
+    public int getId_usuario() {
+        return id_usuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId_usuario(int id) {
+        this.id_usuario = id;
     }
 
     public String getUsername() {
@@ -49,7 +48,7 @@ public class Usuario {
     @Override
     public String toString() {
         return "Usuario-> " +
-                "\nId=" + id +
+                "\nId=" + id_usuario +
                 "\nUsername: " + username +
                 "\nPassword: " + password +
                 "\nRol: " + rol;

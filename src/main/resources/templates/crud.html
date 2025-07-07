@@ -1,10 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>LIBRERIA SANDRA</title>
+    <link rel="icon" href="/images/book.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </head>
 <body>
-$END$
+<form th:action="@{/logout}" method="post">
+    <button type="submit" class="btn-icon">
+        <img src="/images/exit.png" alt="Botón logout">
+    </button>
+</form>
+<div class="container text-center mt-5">
+
+    <h1 class="mb-4"><strong>LISTADO LIBROS</strong></h1>
+
+
+    <img src="/images/libros.png" alt="Libros"
+         style="height: 200px; width: auto; max-width: 100%;" class="mb-4">
+
+    <!-- Botón nueva libro y búsqueda -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-3 mb-2">
+            <a th:href="@{/formulario}" class="btn btn-primary w-100">NUEVO LIBRO</a>
+        </div>
+        <div class="col-md-4">
+            <form th:action="@{/buscar}" method="get" class="d-flex">
+                <input type="text" name="nombre" class="form-control me-2" placeholder="Buscar por nombre">
+                <button type="submit" class="btn btn-primary">🔍</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de libros -->
+    <div class="table-responsive">
+        <table class="table table-striped text-center">
+            <thead class="table-info">
+            <tr>
+                <th class="table-danger">Titulo</th>
+                <th class="table-danger">Autor</th>
+                <th class="table-danger">Género</th>
+                <th class="table-danger">Editorial</th>
+                <th class="table-danger">Páginas</th>
+                <th class="table-danger" sec:authorize="hasRole('Admin')">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="libro : ${librosParaCrud}">
+                <td th:text="${libro.titulo}"></td>
+                <td th:text="${libro.autor}"></td>
+                <td th:text="${libro.genero}"></td>
+                <td th:text="${libro.editorial}"></td>
+                <td th:text="${libro.paginas}"></td>
+
+                    <a th:href="@{'editar/'+ ${libro.getId()}}" sec:authorize="hasRole('Admin')" class="btn btn-warning mb-1">✍️Editar</a>
+                    <a th:href="@{'borrar/' + ${libro.getId()}}" sec:authorize="hasRole('Admin')" class="btn btn-danger" onclick="return confirm('¿Estas seguro que quieres borrar este cliente?')">🗑️Eliminar</a>
+                    <a th:href="@{'/consulta/'+ ${libro.getId()}}" sec:authorize="hasRole('Admin')" class="btn btn-warning mb-1">✍📄Historial</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
 </body>
 </html>
