@@ -147,53 +147,26 @@
     </style>
 </head>
 <body>
+<h2>Iniciar Sesión</h2>
 
-<!-- FORMULARIO LOGIN -->
-<form id="formLogin" th:action="@{/login}" method="post" class="form-control p-5">
-    <div class="header-login">
-        <span style="font-size: 40px; font-weight: bold;"><strong>INICIO SESIÓN</strong></span>
-        <img src="/images/libros.png" alt="Libros" />
+<form th:action="@{/login}" method="post">
+    <div>
+        <label>Usuario:</label>
+        <input type="text" name="username" required />
     </div>
-    <label for="usuario">USUARIO</label>
-    <div class="input-icon">
-    <img src="/images/user.png"  alt="Icono Usuario">
-    <input type="text" id="User" name="username" placeholder="Ingrese su usuario" required autofocus />
+    <div>
+        <label>Contraseña:</label>
+        <input type="password" name="password" required />
     </div>
-    <label for="contraseña">CONTRASEÑA</label>
-    <div class="input-icon">
-        <img src="/images/door-key.png" alt="Icono Contraseña">
-        <input type="password" id="contraseña" name="password" placeholder="Ingrese su contraseña" required />
+
+    <div th:if="${param.error}">
+        <p style="color:red;">Usuario o contraseña incorrectos.</p>
     </div>
-    <button type="submit">ENTRAR</button>
+
+    <button type="submit">Entrar</button>
 </form>
 
-<!-- FORMULARIO REGISTRO OCULTO INICIALMENTE -->
-<form id="formRegistro" th:action="@{/registro}" method="post" class="form-control p-5" style="display:none;">
-    <h2><strong>REGISTRO DE USUARIO</strong></h2>
-    <img src="/images/libros.png" alt="Libros" style="height: 150px; margin-left: 10px;" />
-
-    <label for="usuario">NUEVO USUARIO</label>
-    <input type="text" id="usuario" name="usuario" required autofocus />
-
-    <label for="password">NUEVA CONTRASEÑA</label>
-    <input type="password" id="password" name="password" required />
-
-    <label for="rol">Rol</label>
-    <select id="rol" name="rol">
-        <option value=""></option>
-        <option value="Admin">Administrador</option>
-        <option value="User">Usuario</option>
-    </select>
-
-    <button type="submit">Registrarse</button>
-
-    <button type="button" id="btnVolverLogin">
-        <img src="/images/exit.png" alt="Salir"></button>
-
-</form>
-
-<!-- Botón para mostrar el registro, visible solo cuando el registro está oculto -->
-<button id="btnMostrarRegistro" class="btn-secondary" style="margin-top: 20px;">NUEVO USUARIO</button>
+<p>¿No tienes cuenta? <a th:href="@{/registro}">Regístrate</a></p>
 
 <script>
     const btnMostrarRegistro = document.getElementById('btnMostrarRegistro');

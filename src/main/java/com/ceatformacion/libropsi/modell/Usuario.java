@@ -9,7 +9,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_usuario;
-    private String usuario;
+    private String username;
     private String password;
     private String rol;
 
@@ -21,12 +21,12 @@ public class Usuario {
         this.id_usuario = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsuario(String username) {
-        this.usuario = username;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -47,10 +47,11 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario-> " +
-                "\nId=" + id_usuario +
-                "\nUsername: " + usuario +
-                "\nPassword: " + password +
-                "\nRol: " + rol;
+        return "Usuario{" +
+                "id_usuario=" + id_usuario +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", rol='" + rol + '\'' +
+                '}';
     }
 }

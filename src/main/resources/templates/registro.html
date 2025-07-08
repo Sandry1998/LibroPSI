@@ -147,34 +147,26 @@
     </style>
 </head>
 <body>
-<!-- FORMULARIO REGISTRO OCULTO INICIALMENTE -->
-<form id="formRegistro" th:action="@{/registro}" method="post" class="form-control p-5" style="display:none;">
-    <h2><strong>REGISTRO DE USUARIO</strong></h2>
-    <img src="/images/libros.png" alt="Libros" style="height: 150px; margin-left: 10px;" />
+<h2>Registro de Usuario</h2>
 
-    <label for="usuario">NUEVO USUARIO</label>
-    <input type="text" id="usuario" name="usuario" required autofocus />
+<form th:action="@{/registro}" th:object="${usuario}" method="post">
+    <div>
+        <label>Usuario:</label>
+        <input type="text" th:field="*{username}" required />
+    </div>
+    <div>
+        <label>Contraseña:</label>
+        <input type="password" th:field="*{password}" required />
+    </div>
 
-    <label for="password">NUEVA CONTRASEÑA</label>
-    <input type="password" id="password" name="password" required />
+    <div th:if="${error}">
+        <p style="color:red;" th:text="${error}"></p>
+    </div>
 
-    <label for="rol">Rol</label>
-    <select id="rol" name="rol">
-        <option value=""></option>
-        <option value="Admin">Administrador</option>
-        <option value="User">Usuario</option>
-    </select>
-
-    <button type="submit">Registrarse</button>
-
-    <button type="button" id="btnVolverLogin">
-        <img src="/images/exit.png" alt="Salir"></button>
-
+    <button type="submit">Registrar</button>
 </form>
 
-<!-- Botón para mostrar el registro, visible solo cuando el registro está oculto -->
-<button id="btnMostrarRegistro" class="btn-secondary" style="margin-top: 20px;">NUEVO USUARIO</button>
-
+<p>¿Ya tienes cuenta? <a th:href="@{/login}">Iniciar sesión</a></p>
 <script>
     const btnMostrarRegistro = document.getElementById('btnMostrarRegistro');
     const btnVolverLogin = document.getElementById('btnVolverLogin');
