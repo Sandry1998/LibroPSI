@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HistorialService {
@@ -31,12 +32,15 @@ public class HistorialService {
         historialRepository.deleteById(id);
     }
 
-    public Historial obtenerPorId(int id) {
-        return historialRepository.findById(id).orElse(null);
+    public Optional<Historial> obtenerPorId(int id) {
+        return historialRepository.findById(id);
     }
 
-    public boolean existeReservaActiva(int idUsuario, int id) {
+    public boolean existeReservaActiva(int idUsuario, int idLibro) {
+        // Implementar lógica si quieres verificar reservas activas
+        return false;
     }
 }
+
 
 

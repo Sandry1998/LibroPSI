@@ -3,7 +3,7 @@ package com.ceatformacion.libropsi.controller;
 import com.ceatformacion.libropsi.modell.Historial;
 import com.ceatformacion.libropsi.modell.Libro;
 import com.ceatformacion.libropsi.modell.Usuario;
-import com.ceatformacion.libropsi.repository.LibroRepository;
+
 import com.ceatformacion.libropsi.services.HistorialService;
 import com.ceatformacion.libropsi.services.LibroService;
 import com.ceatformacion.libropsi.services.UsuarioService;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/libros")
@@ -59,11 +60,11 @@ public class LibroController {
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String mostrarFormularioEditar(@PathVariable int id, Model model) {
-        Libro libro = libroService.obtenerPorId(id);
-        if (libro == null) {
+        Optional<Libro> libroOpt = libroService.obtenerPorId(id);
+        if (libroOpt.isEmpty()) {
             return "redirect:/libros/todos";
         }
-        model.addAttribute("libro", libro);
+        model.addAttribute("libro", libroOpt.get());
         return "libro_formulario";
     }
 
@@ -79,16 +80,20 @@ public class LibroController {
     @PostMapping("/reservar/{id}")
     @PreAuthorize("hasRole('USER')")
     public String reservarLibro(@PathVariable int id, Principal principal) {
-        Libro libro = libroService.obtenerPorId(id);
-        if (libro == null) {
-            return "redirect:/libros/todos";
+        Optional<Libro> libroOpt = libroService.obtenerPorId(id);
+        if (libroOpt.isEmpty()) {
+            return "redirect:/libros/todos?error=Libro no encontrado";
         }
-        Usuario usuario = usuarioService.findByUsername(principal.getName());
+        Libro libro = libroOpt.get();
 
-        // Verificar si ya existe reserva activa (opcional)
+        Usuario usuario = usuarioService.findByUsername(principal.getName());
+        if (usuario == null) {
+            return "redirect:/login?error=Usuario no encontrado";
+        }
+
+        // Verificar si ya existe reserva activa
         boolean yaReservado = historialService.existeReservaActiva(usuario.getId_usuario(), id);
         if (yaReservado) {
-            // Puedes agregar un mensaje de error si quieres mostrar en la vista
             return "redirect:/libros/todos?error=Ya tienes este libro reservado";
         }
 

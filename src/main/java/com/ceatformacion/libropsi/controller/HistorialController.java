@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -43,6 +44,9 @@ public class HistorialController {
     @PreAuthorize("hasRole('USER')")
     public String verHistorialUsuario(Model model, Principal principal) {
         Usuario usuario = usuarioService.findByUsername(principal.getName());
+        if (usuario == null) {
+            return "redirect:/login?error=Usuario no encontrado";
+        }
         model.addAttribute("historiales", historialService.obtenerPorUsuario(usuario.getId_usuario()));
         return "historial_usuario";
     }
@@ -59,8 +63,9 @@ public class HistorialController {
     @PostMapping("/modificar-estado/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String modificarEstado(@PathVariable int id, @RequestParam String estado) {
-        Historial historial = historialService.obtenerPorId(id);
-        if(historial != null) {
+        Optional<Historial> historialOpt = historialService.obtenerPorId(id);
+        if (historialOpt.isPresent()) {
+            Historial historial = historialOpt.get();
             historial.setEstado(estado);
             historialService.guardarHistorial(historial);
         }
@@ -82,5 +87,8 @@ public class HistorialController {
         return "redirect:/historial/admin";
     }
 }
+
+
+
 
 

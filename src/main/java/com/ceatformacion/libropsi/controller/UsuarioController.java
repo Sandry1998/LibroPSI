@@ -37,6 +37,7 @@ public class UsuarioController {
         try {
             if (usuarioRepository.findByUsername(usuario.getUsername()).isPresent()) {
                 model.addAttribute("error", "El usuario ya existe");
+                model.addAttribute("usuario", usuario);
                 return "registro";
             }
 
@@ -60,11 +61,10 @@ public class UsuarioController {
 
         } catch (Exception e) {
             model.addAttribute("error", "Error al registrar usuario: " + e.getMessage());
+            model.addAttribute("usuario", usuario);
             return "registro";
         }
     }
-
-
 
     // Opción alternativa para guardar usuarios (por si se usa desde otro formulario)
     @PostMapping("/guardarUsuario")
@@ -80,9 +80,9 @@ public class UsuarioController {
             return "redirect:/login";  // Redirige a login tras registro
         } else {
             model.addAttribute("error", "El usuario ya existe");
-            model.addAttribute("usuario", usuario);  // Para mantener los datos ingresados
+            model.addAttribute("usuario", usuario);
             return "registro";
         }
     }
-
 }
+
