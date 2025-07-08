@@ -9,14 +9,21 @@ public class Historial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_historial;
+
     private LocalDate fechaRecogida;
     private LocalDate fechaEntrega;
     private String estado;
     private String observaciones;
 
     @ManyToOne
-    @JoinColumn(name = "id_libro",nullable = false)
+    @JoinColumn(name = "id_libro", nullable = false)
     private Libro libro;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
+
+    // Getters y setters
 
     public int getId_historial() {
         return id_historial;
@@ -66,14 +73,24 @@ public class Historial {
         this.libro = libro;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public String toString() {
-        return "Historial-> " +
-                "\nId_historial: " + id_historial +
-                "\nFechaRecogida: " + fechaRecogida +
-                "\nFechaEntrega: " + fechaEntrega +
-                "\nEstado: " + estado +
-                "\nObservaciones: " + observaciones +
-                "\nLibro: " + libro;
+        return "Historial{" +
+                "id_historial=" + id_historial +
+                ", fechaRecogida=" + fechaRecogida +
+                ", fechaEntrega=" + fechaEntrega +
+                ", estado='" + estado + '\'' +
+                ", observaciones='" + observaciones + '\'' +
+                ", libro=" + libro +
+                ", usuario=" + usuario +
+                '}';
     }
 }

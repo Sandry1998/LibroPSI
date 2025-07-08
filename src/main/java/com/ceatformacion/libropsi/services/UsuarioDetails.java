@@ -9,6 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
 public class UsuarioDetails implements UserDetails {
 
     private Usuario usuario;
@@ -19,7 +26,8 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
+        // Agrega el rol con el prefijo ROLE_
+        return List.of(new SimpleGrantedAuthority(usuario.getRol()));
     }
 
     @Override
@@ -34,23 +42,21 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return true; // Cambiar si implementas expiración
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return true; // Cambiar si implementas bloqueo
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return true; // Cambiar si implementas expiración de credenciales
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return true; // Cambiar si implementas habilitación/deshabilitación
     }
 }
-
-

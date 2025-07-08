@@ -1,186 +1,106 @@
 package com.ceatformacion.libropsi.controller;
 
+import com.ceatformacion.libropsi.modell.Historial;
 import com.ceatformacion.libropsi.modell.Libro;
+import com.ceatformacion.libropsi.modell.Usuario;
 import com.ceatformacion.libropsi.repository.LibroRepository;
+import com.ceatformacion.libropsi.services.HistorialService;
+import com.ceatformacion.libropsi.services.LibroService;
+import com.ceatformacion.libropsi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
+@RequestMapping("/libros")
 public class LibroController {
 
     @Autowired
-    private LibroRepository libroRepository;
+    private LibroService libroService;
 
-    /**
-     * Mostrar página principal con todos los libros
-     */
-    @GetMapping("/")
-    public String inicio(Model model) {
-        model.addAttribute("libros", libroRepository.findAll());
-        return "index";
+    @Autowired
+    private HistorialService historialService;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    // Mostrar todos los libros (para usuarios y admins)
+    @GetMapping("/todos")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    public String listarLibros(Model model) {
+        List<Libro> libros = libroService.obtenerTodos();
+        model.addAttribute("libros", libros);
+        return "libros_lista";  // Vista para mostrar todos los libros
     }
 
-    /**
-     * Mostrar formulario para nuevo libro
-     */
-    @GetMapping("/formulario")
-    public String mostrarFormulario(Model model) {
+    // Mostrar formulario para agregar libro (solo admin)
+    @GetMapping("/nuevo")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String mostrarFormularioNuevoLibro(Model model) {
         model.addAttribute("libro", new Libro());
-        return "formulario";
+        return "libro_formulario";  // Formulario para crear libro
     }
 
-    /**
-     * Guardar libro (nuevo o editado)
-     */
+    // Guardar libro (nuevo o editado) - solo admin
     @PostMapping("/guardar")
-    public String guardarLibro(@ModelAttribute("libro") Libro libro, Model model) {
-        try {
-            libroRepository.save(libro);
-            return "redirect:/crud";
-        } catch (Exception e) {
-            model.addAttribute("error", "Error al guardar el libro: " + e.getMessage());
-            return "formulario";
-        }
+    @PreAuthorize("hasRole('ADMIN')")
+    public String guardarLibro(@ModelAttribute Libro libro) {
+        libroService.guardarLibro(libro);
+        return "redirect:/libros/todos";
     }
 
-    /**
-     * Mostrar listado de libros para CRUD
-     */
-    @GetMapping("/crud")
-    public String mostrarLibros(Model model) {
-        List<Libro> libros = libroRepository.findAll();
-        model.addAttribute("librosParaCrud", libros);
-        return "crud";
-    }
-
-    /**
-     * Mostrar formulario para editar libro
-     */
+    // Mostrar formulario para editar libro - solo admin
     @GetMapping("/editar/{id}")
-    public String editarLibro(@PathVariable int id, Model model) {
-        try {
-            Libro libro = libroRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
-            model.addAttribute("libro", libro);
-            return "formulario";
-        } catch (RuntimeException e) {
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/crud";
+    @PreAuthorize("hasRole('ADMIN')")
+    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
+        Libro libro = libroService.obtenerPorId(id);
+        if (libro == null) {
+            return "redirect:/libros/todos";
         }
+        model.addAttribute("libro", libro);
+        return "libro_formulario";
     }
 
-    /**
-     * Ver detalles de un libro
-     */
-    @GetMapping("/detalle/{id}")
-    public String verDetalle(@PathVariable int id, Model model) {
-        try {
-            Libro libro = libroRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
-            model.addAttribute("libro", libro);
-            return "detalle";
-        } catch (RuntimeException e) {
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/crud";
-        }
+    // Eliminar libro - solo admin
+    @GetMapping("/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarLibro(@PathVariable int id) {
+        libroService.eliminarLibro(id);
+        return "redirect:/libros/todos";
     }
 
-    /**
-     * Eliminar libro
-     */
-    @GetMapping("/borrar/{id}")
-    public String eliminarLibro(@PathVariable int id, Model model) {
-        try {
-            if (libroRepository.existsById(id)) {
-                libroRepository.deleteById(id);
-            } else {
-                throw new RuntimeException("Libro no encontrado con ID: " + id);
-            }
-            return "redirect:/crud";
-        } catch (Exception e) {
-            model.addAttribute("error", "Error al eliminar el libro: " + e.getMessage());
-            return "redirect:/crud";
+    // Reservar libro (solo usuarios)
+    @PostMapping("/reservar/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public String reservarLibro(@PathVariable int id, Principal principal) {
+        Libro libro = libroService.obtenerPorId(id);
+        if (libro == null) {
+            return "redirect:/libros/todos";
         }
-    }
+        Usuario usuario = usuarioService.findByUsername(principal.getName());
 
-    /**
-     * Buscar libros por título
-     */
-    @GetMapping("/buscar")
-    public String buscarPorTitulo(@RequestParam(required = false) String titulo, Model model) {
-        List<Libro> resultado;
-
-        if (titulo != null && !titulo.trim().isEmpty()) {
-            resultado = libroRepository.findByTituloContainingIgnoreCase(titulo.trim());
-        } else {
-            resultado = libroRepository.findAll();
+        // Verificar si ya existe reserva activa (opcional)
+        boolean yaReservado = historialService.existeReservaActiva(usuario.getId_usuario(), id);
+        if (yaReservado) {
+            // Puedes agregar un mensaje de error si quieres mostrar en la vista
+            return "redirect:/libros/todos?error=Ya tienes este libro reservado";
         }
 
-        model.addAttribute("librosParaCrud", resultado);
-        model.addAttribute("terminoBusqueda", titulo);
-        return "crud";
-    }
+        Historial historial = new Historial();
+        historial.setLibro(libro);
+        historial.setUsuario(usuario);
+        historial.setFechaRecogida(LocalDate.now());
+        historial.setEstado("RESERVADO");
+        historial.setObservaciones("Reserva realizada desde la web");
 
-    /**
-     * API REST - Obtener todos los libros (JSON)
-     */
-    @ResponseBody
-    @GetMapping("/api/libros")
-    public List<Libro> obtenerLibrosJson() {
-        return libroRepository.findAll();
-    }
+        historialService.guardarHistorial(historial);
 
-    /**
-     * API REST - Obtener libro por ID (JSON)
-     */
-    @ResponseBody
-    @GetMapping("/api/libros/{id}")
-    public Libro obtenerLibroPorId(@PathVariable int id) {
-        return libroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
-    }
-
-    /**
-     * API REST - Crear nuevo libro (JSON)
-     */
-    @ResponseBody
-    @PostMapping("/api/libros")
-    public Libro crearLibro(@RequestBody Libro libro) {
-        return libroRepository.save(libro);
-    }
-
-    /**
-     * API REST - Actualizar libro (JSON)
-     */
-    @ResponseBody
-    @PutMapping("/api/libros/{id}")
-    public Libro actualizarLibro(@PathVariable int id, @RequestBody Libro libroActualizado) {
-        return libroRepository.findById(id)
-                .map(libro -> {
-                    libro.setTitulo(libroActualizado.getTitulo());
-                    libro.setAutor(libroActualizado.getAutor());
-                    libro.setGenero(libroActualizado.getGenero());
-                    libro.setEditorial(libroActualizado.getEditorial());
-                    libro.setPaginas(libroActualizado.getPaginas());
-                    return libroRepository.save(libro);
-                })
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
-    }
-
-    /**
-     * API REST - Eliminar libro (JSON)
-     */
-    @ResponseBody
-    @DeleteMapping("/api/libros/{id}")
-    public void eliminarLibroApi(@PathVariable int id) {
-        if (libroRepository.existsById(id)) {
-            libroRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Libro no encontrado");
-        }
+        return "redirect:/libros/todos?success=Libro reservado";
     }
 }

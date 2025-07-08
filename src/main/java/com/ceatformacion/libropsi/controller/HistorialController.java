@@ -3,71 +3,84 @@ package com.ceatformacion.libropsi.controller;
 
 import com.ceatformacion.libropsi.modell.Historial;
 import com.ceatformacion.libropsi.modell.Libro;
-import com.ceatformacion.libropsi.repository.HistorialRepository;
-import com.ceatformacion.libropsi.repository.LibroRepository;
+import com.ceatformacion.libropsi.modell.Usuario;
+
 import com.ceatformacion.libropsi.services.HistorialService;
+import com.ceatformacion.libropsi.services.LibroService;
+import com.ceatformacion.libropsi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
+
 
 @Controller
+@RequestMapping("/historial")
 public class HistorialController {
 
-
-
-@Autowired
-private HistorialService historialService;
     @Autowired
-    private HistorialRepository historialRepository;
+    private HistorialService historialService;
 
     @Autowired
-    private LibroRepository libroRepository;
+    private UsuarioService usuarioService;
 
+    @Autowired
+    private LibroService libroService;
 
-    @GetMapping("/historial/{id}")
-    public String gethistorial(@PathVariable int id, Model model) {
-        Historial historial = historialRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Historial no encontrado"));
-        model.addAttribute("historial", historial);
-        return "historial";
+    // Vista admin: ver todos los historiales
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String verHistorialAdmin(Model model) {
+        model.addAttribute("historiales", historialService.obtenerTodos());
+        return "historial_admin";
     }
 
-    @ResponseBody
-    @PostMapping("/api/historial")
-    public Historial saveHistorial(@RequestBody Historial historial) {
-        return historialRepository.save(historial);
+    // Vista usuario: ver historiales propios
+    @GetMapping("/usuario")
+    @PreAuthorize("hasRole('USER')")
+    public String verHistorialUsuario(Model model, Principal principal) {
+        Usuario usuario = usuarioService.findByUsername(principal.getName());
+        model.addAttribute("historiales", historialService.obtenerPorUsuario(usuario.getId_usuario()));
+        return "historial_usuario";
     }
 
-    @ResponseBody
-    @GetMapping("/libro/{id}")
-    public List<Historial> findByLibroId(@PathVariable int id) {
-        return historialService.obtenerHistorialLibro(id);
+    // Admin elimina historial
+    @PostMapping("/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarHistorial(@PathVariable int id) {
+        historialService.eliminarHistorial(id);
+        return "redirect:/historial/admin";
     }
 
-    @GetMapping("/consulta/{id}")
-    public String getHistorialById(@PathVariable int id, Model model) {
-        Libro libro = libroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
-        List<Historial> historial = historialRepository.findByLibroId(id);
-        model.addAttribute("historial", historial);
-        model.addAttribute("libro", libro);
-        model.addAttribute("nuevoHistorial", new Historial()); // ✅ Corregido
-        return "historial";
+    // Admin modifica estado de historial (reservado, cancelado, entregado)
+    @PostMapping("/modificar-estado/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String modificarEstado(@PathVariable int id, @RequestParam String estado) {
+        Historial historial = historialService.obtenerPorId(id);
+        if(historial != null) {
+            historial.setEstado(estado);
+            historialService.guardarHistorial(historial);
+        }
+        return "redirect:/historial/admin";
     }
 
-    @PostMapping("/consulta/{id}")
-    public String registrarHistorial(@PathVariable int id,
-                                     @ModelAttribute("nuevoHistorial") Historial nuevoHistorial) {
-        Libro libro = libroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
-        nuevoHistorial.setLibro(libro);
-        historialRepository.save(nuevoHistorial);
-        return "redirect:/consulta/" + id;
+    // Admin agrega nuevo libro a la lista general (opcional)
+    @GetMapping("/admin/agregar-libro")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String mostrarFormularioLibro(Model model) {
+        model.addAttribute("libro", new Libro());
+        return "agregar_libro";
     }
 
-
-
+    @PostMapping("/admin/agregar-libro")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String agregarLibro(@ModelAttribute Libro libro) {
+        libroService.guardarLibro(libro);
+        return "redirect:/historial/admin";
+    }
 }
+
+
