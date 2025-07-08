@@ -147,9 +147,11 @@
     </style>
 </head>
 <body>
-<h2>Iniciar Sesión</h2>
-
-<form th:action="@{/login}" method="post">
+<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+    <h1 class="titulo-principal-sombreado-hover"><strong>INICIO SESIÓN</strong></h1>
+    <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
+</div>
+    <form th:action="@{/login}" method="post">
     <div>
         <label>Usuario:</label>
         <input type="text" name="username" required />

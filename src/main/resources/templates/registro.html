@@ -147,8 +147,10 @@
     </style>
 </head>
 <body>
-<h2>Registro de Usuario</h2>
-
+<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+    <h1 class="titulo-principal-sombreado-hover"><strong>REGISTRO DE USUARIO</strong></h1>
+    <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
+</div>
 <form th:action="@{/registro}" th:object="${usuario}" method="post">
     <div>
         <label>Usuario:</label>

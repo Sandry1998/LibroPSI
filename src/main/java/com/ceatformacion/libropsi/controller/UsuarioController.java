@@ -42,17 +42,30 @@ public class UsuarioController {
 
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
-            if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
+            // Verifica si ya existe un admin
+            boolean existeAdmin = usuarioRepository.findAll()
+                    .stream()
+                    .anyMatch(u -> "ROLE_ADMIN".equals(u.getRol()));
+
+            if (!existeAdmin) {
+                // Si no hay admin, asigna rol ADMIN
+                usuario.setRol("ROLE_ADMIN");
+            } else {
+                // Si ya existe admin, asigna rol USER
                 usuario.setRol("ROLE_USER");
             }
 
             usuarioRepository.save(usuario);
-            return "redirect:/login"; // redirige al login tras registrar
+            return "redirect:/login";
+
         } catch (Exception e) {
             model.addAttribute("error", "Error al registrar usuario: " + e.getMessage());
             return "registro";
         }
     }
+
+
+
     // Opción alternativa para guardar usuarios (por si se usa desde otro formulario)
     @PostMapping("/guardarUsuario")
     public String guardarUsuario(@ModelAttribute Usuario usuario, Model model) {
