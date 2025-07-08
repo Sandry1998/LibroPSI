@@ -22,7 +22,7 @@ public class UsuarioController {
     @GetMapping("/login")
     public String mostrarlogin(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "login-registro";
+        return "login";
     }
 
     @GetMapping("/altaUsuario")
@@ -35,7 +35,7 @@ public class UsuarioController {
     public String addUsuario(@ModelAttribute Usuario usuario, Model model) {
         try {
             // Verificar si el usuario ya existe
-            if (usuarioRepository.findByUsername(usuario.getUsername()).isPresent()) {
+            if (usuarioRepository.findByUsername(usuario.getUsuario()).isPresent()) {
                 model.addAttribute("error", "El usuario ya existe");
                 return "altaUsuario";
             }
@@ -60,9 +60,9 @@ public class UsuarioController {
     // Método alternativo más completo
     @PostMapping("/guardarUsuario")
     public String guardarUsuario(@ModelAttribute Usuario usuario, Model model) {
-        if (usuarioRepository.findByUsername(usuario.getUsername()).isEmpty()) {
+        if (usuarioRepository.findByUsername(usuario.getUsuario()).isEmpty()) {
             Usuario user = new Usuario();
-            user.setUsername(usuario.getUsername());
+            user.setUsuario(usuario.getUsuario());
             user.setPassword(passwordEncoder.encode(usuario.getPassword()));
             user.setRol(usuario.getRol() != null ? usuario.getRol() : "USER");
             usuarioRepository.save(user);
