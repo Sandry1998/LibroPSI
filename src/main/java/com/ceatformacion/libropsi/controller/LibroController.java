@@ -60,14 +60,15 @@ public class LibroController {
     @GetMapping("/editar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String mostrarFormularioEditar(@PathVariable int id, Model model) {
-        Optional<Libro> libroOpt = libroService.obtenerPorId(id);
-        if (libroOpt.isEmpty()) {
+        Optional<Libro> libro = libroService.obtenerPorId(id);
+        if (libro.isPresent()) {
+            model.addAttribute("libro", libro.get());
+            return "libro_formulario";
+        }else{
             return "redirect:/libros/todos";
         }
-        model.addAttribute("libro", libroOpt.get());
-        return "libro_formulario";
-    }
 
+    }
     // Eliminar libro - solo admin
     @GetMapping("/eliminar/{id}")
     @PreAuthorize("hasRole('ADMIN')")

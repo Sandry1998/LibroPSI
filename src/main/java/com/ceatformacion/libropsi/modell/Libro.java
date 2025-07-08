@@ -16,12 +16,12 @@ public class Libro {
     private String editorial;
     private int paginas;
 
-    public int getId() {
+    public int getId_libro() {
         return id_libro;
     }
 
-    public void setId(int id) {
-        this.id_libro = id;
+    public void setId_libro(int id_libro) {
+        this.id_libro = id_libro;
     }
 
     public String getTitulo() {

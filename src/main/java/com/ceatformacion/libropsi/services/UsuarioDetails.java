@@ -27,7 +27,7 @@ public class UsuarioDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Agrega el rol con el prefijo ROLE_
-        return List.of(new SimpleGrantedAuthority(usuario.getRol()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+usuario.getRol()));
     }
 
     @Override

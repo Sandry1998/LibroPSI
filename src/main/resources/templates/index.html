@@ -84,14 +84,11 @@
 <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
     <h1 class="titulo-principal-sombreado-hover"><strong>ร้านหนังสือซานดรา</strong></h1>
     <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
-<div class="row justify-content-md-end mt-5">
-<div class="col-md-2">
-<a th:href="@{/crud}" class="btn btn-warning px-4">ÁREA PRIVADA</a>
-</div>
-    <div  style="display: flex; justify-content: center;">
-        <img th:src="@{images/libreria.png}" alt="Libros" style="width: 800px; height: auto;">
+    <div>
+        <a th:if="${#authorization.expression('isAuthenticated()')}" href="/libros/todos">Ver libros</a>
+        <a th:if="${!#authorization.expression('isAuthenticated()')}" href="/login">Iniciar sesión</a>
+        <a th:if="${!#authorization.expression('isAuthenticated()')}" href="/registro">Registrarse</a>
     </div>
-</div>
 </div>
 </body>
 </html>

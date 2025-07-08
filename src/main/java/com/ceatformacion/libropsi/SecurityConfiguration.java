@@ -30,7 +30,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(auth -> auth
                         // Páginas públicas
-                        .requestMatchers("/", "/index", "/registro", "/login", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/registro", "/login", "/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/registro", "/guardarUsuario").permitAll()
 
                         // Rutas solo para admin

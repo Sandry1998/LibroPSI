@@ -169,23 +169,5 @@
 </form>
 
 <p>¿Ya tienes cuenta? <a th:href="@{/login}">Iniciar sesión</a></p>
-<script>
-    const btnMostrarRegistro = document.getElementById('btnMostrarRegistro');
-    const btnVolverLogin = document.getElementById('btnVolverLogin');
-    const formLogin = document.getElementById('formLogin');
-    const formRegistro = document.getElementById('formRegistro');
-
-    btnMostrarRegistro.addEventListener('click', () => {
-        formLogin.style.display = 'none';
-        formRegistro.style.display = 'block';
-        btnMostrarRegistro.style.display = 'none'; // opcional, para ocultar el botón
-    });
-
-    btnVolverLogin.addEventListener('click', () => {
-        formRegistro.style.display = 'none';
-        formLogin.style.display = 'block';
-        btnMostrarRegistro.style.display = 'inline-block'; // vuelve a mostrar el botón
-    });
-</script>
 </body>
 </html>
