@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface HistorialRepository extends JpaRepository<Historial, Integer> {
-    List<Historial> findByLibro_Id_libro(int libroId);
-    List<Historial> findByUsuario_Id_usuario(int usuarioId);
+    List<Historial> findByLibroIdlibro(int libroId);
+    List<Historial> findByUsuarioIdUsuario(int usuarioId);
 }

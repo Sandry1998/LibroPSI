@@ -10,7 +10,7 @@ import java.util.List;
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id_usuario;
+        private int idUsuario;
 
         private String username;
         private String password;
@@ -21,15 +21,16 @@ import java.util.List;
 
     // Getters y setters
 
-        public int getId_usuario() {
-            return id_usuario;
-        }
 
-        public void setId_usuario(int id_usuario) {
-            this.id_usuario = id_usuario;
-        }
+    public int getIdUsuario() {
+        return idUsuario;
+    }
 
-        public String getUsername() {
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getUsername() {
             return username;
         }
 
@@ -61,16 +62,15 @@ import java.util.List;
             this.libros = libros;
         }*/
 
-        @Override
-        public String toString() {
-            return "Usuario{" +
-                    "id_usuario=" + id_usuario +
-                    ", username='" + username + '\'' +
-                    ", password='" + password + '\'' +
-                    ", rol='" + rol + '\'' +
-                    /*", libros=" + libros +*/
-                    '}';
-        }
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", rol='" + rol + '\'' +
+                '}';
     }
+}
 
 

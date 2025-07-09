@@ -21,7 +21,7 @@ public class HistorialService {
     }
 
     public List<Historial> obtenerPorUsuario(int usuarioId) {
-        return historialRepository.findByUsuarioId_usuario(usuarioId);
+        return historialRepository.findByUsuario_Id_usuario(usuarioId);
     }
 
     public Historial guardarHistorial(Historial historial) {
