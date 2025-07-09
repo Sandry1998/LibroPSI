@@ -23,11 +23,14 @@ public class UsuarioDetails implements UserDetails {
     public UsuarioDetails(Usuario usuario) {
         this.usuario = usuario;
     }
+    public Usuario getUsuario() {
+        return this.usuario; // ← Necesario para acceder desde el controller
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Agrega el rol con el prefijo ROLE_
-        return List.of(new SimpleGrantedAuthority("ROLE_"+usuario.getRol()));
+        return List.of(new SimpleGrantedAuthority(usuario.getRol()));
     }
 
     @Override

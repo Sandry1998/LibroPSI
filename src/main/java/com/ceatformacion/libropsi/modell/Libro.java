@@ -9,19 +9,27 @@ import java.util.Collection;
 public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_libro;
+    private int idLibro;
     private String titulo;
     private String autor;
     private String genero ;
     private String editorial;
     private int paginas;
 
-    public int getId_libro() {
-        return id_libro;
+    public Libro(int idLibro) {
+        this.idLibro = idLibro;
     }
 
-    public void setId_libro(int id_libro) {
-        this.id_libro = id_libro;
+    public Libro() {
+
+    }
+
+    public int getIdLibro() {
+        return idLibro;
+    }
+
+    public void setIdLibro(int idLibro) {
+        this.idLibro = idLibro;
     }
 
     public String getTitulo() {
@@ -68,11 +76,12 @@ public class Libro {
     @Override
     public String toString() {
         return "Libro{" +
-                "id_libro=" + id_libro +
+                "idLibro=" + idLibro +
                 ", titulo='" + titulo + '\'' +
                 ", autor='" + autor + '\'' +
                 ", genero='" + genero + '\'' +
                 ", editorial='" + editorial + '\'' +
+                ", paginas=" + paginas +
                 ", historial=" + historial +
                 '}';
     }

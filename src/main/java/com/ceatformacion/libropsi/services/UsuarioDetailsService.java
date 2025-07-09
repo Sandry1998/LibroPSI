@@ -1,6 +1,7 @@
 package com.ceatformacion.libropsi.services;
 
 
+import com.ceatformacion.libropsi.modell.Usuario;
 import com.ceatformacion.libropsi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,8 +19,13 @@ public class UsuarioDetailsService implements UserDetailsService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByUsername(username).map(UsuarioDetails::new).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+       Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+       System.out.println("Usuario no encontrado: " + usuario.getUsername() + ", Rol " + usuario.getRol());
+
+       return new UsuarioDetails(usuario);
     }
 
 

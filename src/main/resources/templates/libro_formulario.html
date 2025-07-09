@@ -8,12 +8,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </head>
 <body>
-<<h2 th:text="${libro.id_libro} != null ? 'Editar Libro' : 'Nuevo Libro'"></h2>
+<h2 th:text="${libro.idLibro == 0 ? 'Editar Libro' : 'Nuevo Libro'}"></h2>
 
 <form th:action="@{/libros/guardar}" th:object="${libro}" method="post">
-
-  <!-- Campo oculto solo en edición -->
-  <input type="hidden" th:field="*{id_libro}" />
+  <input type="hidden" th:field="*{idLibro}" />
 
   <div>
     <label for="titulo">Título:</label>
@@ -40,10 +38,8 @@
     <input type="number" th:field="*{paginas}" id="paginas" min="1" required />
   </div>
 
-  <br/>
   <button type="submit">Guardar</button>
   <a th:href="@{/libros/todos}">Cancelar</a>
-
 </form>
 </body>
 </html>

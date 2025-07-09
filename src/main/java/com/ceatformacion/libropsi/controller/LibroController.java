@@ -6,17 +6,18 @@ import com.ceatformacion.libropsi.modell.Usuario;
 
 import com.ceatformacion.libropsi.services.HistorialService;
 import com.ceatformacion.libropsi.services.LibroService;
+import com.ceatformacion.libropsi.services.UsuarioDetails;
 import com.ceatformacion.libropsi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/libros")
@@ -25,88 +26,37 @@ public class LibroController {
     @Autowired
     private LibroService libroService;
 
-    @Autowired
-    private HistorialService historialService;
 
-    @Autowired
-    private UsuarioService usuarioService;
-
-    // Mostrar todos los libros (para usuarios y admins)
     @GetMapping("/todos")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public String listarLibros(Model model) {
-        List<Libro> libros = libroService.obtenerTodos();
-        model.addAttribute("libros", libros);
-        return "libros_lista";  // Vista para mostrar todos los libros
+    public String verTodosLosLibros(Model model) {
+        model.addAttribute("libros", libroService.obtenerTodos());
+        return "libros_lista";
     }
 
-    // Mostrar formulario para agregar libro (solo admin)
     @GetMapping("/nuevo")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String mostrarFormularioNuevoLibro(Model model) {
+    public String formularioNuevoLibro(Model model) {
         model.addAttribute("libro", new Libro());
-        return "libro_formulario";  // Formulario para crear libro
+        return "libro_formulario";
     }
 
-    // Guardar libro (nuevo o editado) - solo admin
     @PostMapping("/guardar")
-    @PreAuthorize("hasRole('ADMIN')")
     public String guardarLibro(@ModelAttribute Libro libro) {
         libroService.guardarLibro(libro);
+
         return "redirect:/libros/todos";
     }
 
-    // Mostrar formulario para editar libro - solo admin
     @GetMapping("/editar/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String mostrarFormularioEditar(@PathVariable int id, Model model) {
-        Optional<Libro> libro = libroService.obtenerPorId(id);
-        if (libro.isPresent()) {
-            model.addAttribute("libro", libro.get());
-            return "libro_formulario";
-        }else{
-            return "redirect:/libros/todos";
-        }
-
+    public String editarLibro(@PathVariable int id, Model model) {
+        libroService.obtenerPorId(id).ifPresent(libro -> model.addAttribute("libro", libro));
+        return "redirect:/libros_formulario";
     }
-    // Eliminar libro - solo admin
+
     @GetMapping("/eliminar/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public String eliminarLibro(@PathVariable int id) {
         libroService.eliminarLibro(id);
         return "redirect:/libros/todos";
     }
 
-    // Reservar libro (solo usuarios)
-    @PostMapping("/reservar/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public String reservarLibro(@PathVariable int id, Principal principal) {
-        Optional<Libro> libroOpt = libroService.obtenerPorId(id);
-        if (libroOpt.isEmpty()) {
-            return "redirect:/libros/todos?error=Libro no encontrado";
-        }
-        Libro libro = libroOpt.get();
 
-        Usuario usuario = usuarioService.findByUsername(principal.getName());
-        if (usuario == null) {
-            return "redirect:/login?error=Usuario no encontrado";
-        }
-
-        // Verificar si ya existe reserva activa
-        boolean yaReservado = historialService.existeReservaActiva(usuario.getId_usuario(), id);
-        if (yaReservado) {
-            return "redirect:/libros/todos?error=Ya tienes este libro reservado";
-        }
-
-        Historial historial = new Historial();
-        historial.setLibro(libro);
-        historial.setUsuario(usuario);
-        historial.setFechaRecogida(LocalDate.now());
-        historial.setEstado("RESERVADO");
-        historial.setObservaciones("Reserva realizada desde la web");
-
-        historialService.guardarHistorial(historial);
-
-        return "redirect:/libros/todos?success=Libro reservado";
-    }
 }

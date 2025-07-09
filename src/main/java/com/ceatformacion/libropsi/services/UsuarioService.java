@@ -29,23 +29,23 @@ public class UsuarioService {
 
     // Buscar usuario por username
     public Usuario findByUsername(String username) {
-        Optional<Usuario> optionalUsuario = usuarioRepository.findByUsername(username);
-        return optionalUsuario.orElse(null);
+        return usuarioRepository.findByUsername(username).orElse(null);
     }
 
-    // Guardar o actualizar usuario
-    public Usuario guardarUsuario(Usuario usuario) {
-        if (usuario.getPassword() != null) {
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        // Guardar o actualizar usuario
+        public Usuario guardarUsuario (Usuario usuario){
+            if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+                usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            }
+            return usuarioRepository.save(usuario);
         }
-        return usuarioRepository.save(usuario);
+
+        // Verificar si un usuario existe
+        public boolean existeUsuario (String username){
+            return usuarioRepository.findByUsername(username).isPresent();
+        }
     }
 
-    // Verificar si un usuario existe
-    public boolean existeUsuario(String username) {
-        return usuarioRepository.findByUsername(username).isPresent();
-    }
-}
 
 
 

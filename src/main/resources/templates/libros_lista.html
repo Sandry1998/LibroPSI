@@ -11,50 +11,42 @@
 <h1>Listado de Libros</h1>
 
 <div th:if="${param.success}">
-    <p style="color:green;" th:text="${param.success}"></p>
+    <p style="color:green;" role="alert" th:text="${param.success}"></p>
 </div>
 
 <div th:if="${param.error}">
-    <p style="color:red;" th:text="${param.error}"></p>
+    <p style="color:red;" role="alert" th:text="${param.error}"></p>
 </div>
 
-<table border="1">
+<table>
     <thead>
     <tr>
-        <th>Título</th>
-        <th>Autor</th>
-        <th>Género</th>
-        <th>Editorial</th>
-        <th>Páginas</th>
-        <th>Acciones</th>
+        <th scope="col">Título</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Género</th>
+        <th scope="col">Editorial</th>
+        <th scope="col">Páginas</th>
+        <th scope="col">Acciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="libro : ${libros}">
-        <td th:text="${libro.titulo}"></td>
-        <td th:text="${libro.autor}"></td>
-        <td th:text="${libro.genero}"></td>
-        <td th:text="${libro.editorial}"></td>
-        <td th:text="${libro.paginas}"></td>
+        <td th:text="${libro.titulo}" headers="titulo"></td>
+        <td th:text="${libro.autor}" headers="titulo"></td>
+        <td th:text="${libro.genero}" headers="titulo"></td>
+        <td th:text="${libro.editorial}" headers="titulo"></td>
+        <td th:text="${libro.paginas}" headers="titulo"></td>
         <td>
-            <form th:action="@{'/libros/reservar/' + ${libro.id_libro}}" method="post" th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <button type="submit">Reservar</button>
-            </form>
-            <a th:href="@{'/libros/editar/' + ${libro.id_libro}}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Editar</a> |
-            <a th:href="@{'/libros/eliminar/' + ${libro.id_libro}}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" onclick="return confirm('¿Seguro que deseas eliminar?')">Eliminar</a>
+
+            <a th:href="@{'/libros/editar/' + ${libro.idLibro}}">Editar</a> |
+            <a th:href="@{'/libros/eliminar/' + ${libro.idLibro}}" onclick="return confirm('¿Seguro que deseas eliminar?')">Eliminar</a>
         </td>
     </tr>
     </tbody>
 </table>
 
-<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-    <a href="/libros/nuevo">Agregar nuevo libro</a>
-</div>
-
-<div>
-    <a href="/historial/usuario" th:if="${#authorization.expression('hasRole(''USER'')')}">Ver mi historial</a> |
-    <a href="/historial/admin" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Ver historial admin</a> |
-    <a href="/logout">Cerrar sesión</a>
+<div style="margin-top: 15px;">
+    <a th:href="@{/libros/nuevo}">Agregar nuevo libro</a>
 </div>
 </body>
 </html>

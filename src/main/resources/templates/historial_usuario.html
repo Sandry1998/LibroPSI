@@ -10,7 +10,7 @@
 <body>
 <h1>Mis Reservas</h1>
 
-<table border="1">
+<table aria-label="Tabla de reservas del usuario">
     <thead>
     <tr>
         <th>Libro</th>
@@ -30,8 +30,9 @@
     </tr>
     </tbody>
 </table>
-
-<a href="/libros/todos">Volver al listado de libros</a> |
-<a href="/logout">Cerrar sesión</a>
+<nav>
+<a href="/libros/todos" title="Volver al listado de libros">Volver al listado de libros</a> |
+<a href="/logout" title="Cerrar sesión">Cerrar sesión</a>
+</nav>
 </body>
 </html>

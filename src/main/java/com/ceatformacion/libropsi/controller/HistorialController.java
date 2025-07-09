@@ -7,9 +7,11 @@ import com.ceatformacion.libropsi.modell.Usuario;
 
 import com.ceatformacion.libropsi.services.HistorialService;
 import com.ceatformacion.libropsi.services.LibroService;
+import com.ceatformacion.libropsi.services.UsuarioDetails;
 import com.ceatformacion.libropsi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,69 +27,35 @@ public class HistorialController {
     @Autowired
     private HistorialService historialService;
 
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
-    private LibroService libroService;
-
-    // Vista admin: ver todos los historiales
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String verHistorialAdmin(Model model) {
-        model.addAttribute("historiales", historialService.obtenerTodos());
-        return "historial_admin";
-    }
-
-    // Vista usuario: ver historiales propios
     @GetMapping("/usuario")
-    @PreAuthorize("hasRole('USER')")
-    public String verHistorialUsuario(Model model, Principal principal) {
-        Usuario usuario = usuarioService.findByUsername(principal.getName());
-        if (usuario == null) {
-            return "redirect:/login?error=Usuario no encontrado";
-        }
-        model.addAttribute("historiales", historialService.obtenerPorUsuario(usuario.getId_usuario()));
-        return "historial_usuario";
+    public String historialUsuario(@AuthenticationPrincipal UsuarioDetails usuarioDetails, Model model) {
+        model.addAttribute("historiales", historialService.obtenerPorUsuario(usuarioDetails.getUsuario().getIdUsuario()));
+        return "historial_usuario"; // usuario.html
     }
 
-    // Admin elimina historial
-    @PostMapping("/eliminar/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String eliminarHistorial(@PathVariable int id) {
-        historialService.eliminarHistorial(id);
-        return "redirect:/historial/admin";
+    @GetMapping("/admin")
+    public String historialAdmin(Model model) {
+        model.addAttribute("historiales", historialService.obtenerTodos());
+        return "historial_admin"; // admin.html
     }
 
-    // Admin modifica estado de historial (reservado, cancelado, entregado)
     @PostMapping("/modificar-estado/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public String modificarEstado(@PathVariable int id, @RequestParam String estado) {
-        Optional<Historial> historialOpt = historialService.obtenerPorId(id);
-        if (historialOpt.isPresent()) {
-            Historial historial = historialOpt.get();
+        Optional<Historial> optional = historialService.obtenerPorId(id);
+        if (optional.isPresent()) {
+            Historial historial = optional.get();
             historial.setEstado(estado);
             historialService.guardarHistorial(historial);
         }
-        return "redirect:/historial/admin";
+        return "redirect:/historial_admin";
     }
 
-    // Admin agrega nuevo libro a la lista general (opcional)
-    @GetMapping("/admin/agregar-libro")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String mostrarFormularioLibro(Model model) {
-        model.addAttribute("libro", new Libro());
-        return "agregar_libro";
-    }
-
-    @PostMapping("/admin/agregar-libro")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String agregarLibro(@ModelAttribute Libro libro) {
-        libroService.guardarLibro(libro);
-        return "redirect:/historial/admin";
+    @PostMapping("/eliminar/{id}")
+    public String eliminarHistorial(@PathVariable int id) {
+        historialService.eliminarHistorial(id);
+        return "redirect:/historial_admin";
     }
 }
-
 
 
 

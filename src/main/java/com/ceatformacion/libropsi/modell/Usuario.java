@@ -16,8 +16,13 @@ import java.util.List;
         private String password;
         private String rol;
 
-   /* @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<Libro> libros;*/
+    public Usuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public Usuario() {
+
+    }
 
     // Getters y setters
 
@@ -54,13 +59,7 @@ import java.util.List;
             this.rol = rol;
         }
 
-       /* public List<Libro> getLibros() {
-            return libros;
-        }
 
-        public void setLibros(List<Libro> libros) {
-            this.libros = libros;
-        }*/
 
     @Override
     public String toString() {
