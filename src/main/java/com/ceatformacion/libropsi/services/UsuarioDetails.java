@@ -4,14 +4,8 @@ import com.ceatformacion.libropsi.modell.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
-
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,13 +17,13 @@ public class UsuarioDetails implements UserDetails {
     public UsuarioDetails(Usuario usuario) {
         this.usuario = usuario;
     }
+
     public Usuario getUsuario() {
-        return this.usuario; // ← Necesario para acceder desde el controller
+        return this.usuario;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Agrega el rol con el prefijo ROLE_
         return List.of(new SimpleGrantedAuthority(usuario.getRol()));
     }
 
@@ -45,21 +39,21 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Cambiar si implementas expiración
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Cambiar si implementas bloqueo
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Cambiar si implementas expiración de credenciales
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Cambiar si implementas habilitación/deshabilitación
+        return true;
     }
 }

@@ -14,33 +14,19 @@ import java.util.Optional;
 public class HistorialService {
 
     @Autowired
-    private HistorialRepository historialRepository;
+    private HistorialRepository repo;
 
-    public List<Historial> obtenerTodos() {
-        return historialRepository.findAll();
+    public List<Historial> obtenerPorUsuario(int idUsuario) {
+        return repo.findByUsuarioIdUsuario(idUsuario);
     }
 
-    public List<Historial> obtenerPorUsuario(int usuarioId) {
-        return historialRepository.findByUsuarioIdUsuario(usuarioId);
+    public void guardarHistorial(Historial historial) {
+        repo.save(historial);
     }
 
-    public Historial guardarHistorial(Historial historial) {
-        return historialRepository.save(historial);
-    }
-
-    public void eliminarHistorial(int id) {
-        historialRepository.deleteById(id);
-    }
-
-    public Optional<Historial> obtenerPorId(int id) {
-        return historialRepository.findById(id);
-    }
-
-    public boolean existeReservaActiva(int idUsuario, int idLibro) {
-        // Implementar lógica si quieres verificar reservas activas
-        return false;
+    public void eliminarHistorial(int idHistorial) {
+        repo.deleteById(idHistorial);
     }
 }
-
 
 

@@ -16,13 +16,6 @@ public class Libro {
     private String editorial;
     private int paginas;
 
-    public Libro(int idLibro) {
-        this.idLibro = idLibro;
-    }
-
-    public Libro() {
-
-    }
 
     public int getIdLibro() {
         return idLibro;

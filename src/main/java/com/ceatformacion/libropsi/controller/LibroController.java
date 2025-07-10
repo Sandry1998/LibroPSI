@@ -22,19 +22,17 @@ import java.time.LocalDate;
 @Controller
 @RequestMapping("/libros")
 public class LibroController {
-
     @Autowired
     private LibroService libroService;
 
-
     @GetMapping("/todos")
-    public String verTodosLosLibros(Model model) {
+    public String verLibros(Model model) {
         model.addAttribute("libros", libroService.obtenerTodos());
-        return "libros_lista";
+        return "lista_libros";
     }
 
     @GetMapping("/nuevo")
-    public String formularioNuevoLibro(Model model) {
+    public String nuevoLibro(Model model) {
         model.addAttribute("libro", new Libro());
         return "libro_formulario";
     }
@@ -42,14 +40,13 @@ public class LibroController {
     @PostMapping("/guardar")
     public String guardarLibro(@ModelAttribute Libro libro) {
         libroService.guardarLibro(libro);
-
         return "redirect:/libros/todos";
     }
 
     @GetMapping("/editar/{id}")
     public String editarLibro(@PathVariable int id, Model model) {
         libroService.obtenerPorId(id).ifPresent(libro -> model.addAttribute("libro", libro));
-        return "redirect:/libros_formulario";
+        return "libro_formulario";
     }
 
     @GetMapping("/eliminar/{id}")
@@ -57,6 +54,4 @@ public class LibroController {
         libroService.eliminarLibro(id);
         return "redirect:/libros/todos";
     }
-
-
 }

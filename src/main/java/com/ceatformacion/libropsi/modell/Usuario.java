@@ -11,7 +11,6 @@ import java.util.List;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int idUsuario;
-
         private String username;
         private String password;
         private String rol;

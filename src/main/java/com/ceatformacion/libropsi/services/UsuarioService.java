@@ -12,39 +12,16 @@ import java.util.Optional;
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository repo;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    // Registrar usuario con cifrado de contraseña y rol por defecto
-    public Usuario registrarUsuario(Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
-        if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
-            usuario.setRol("ROLE_USER");
-        }
-        return usuarioRepository.save(usuario);
+    public Optional<Usuario> buscarPorUsername(String username) {
+        return repo.findByUsername(username);
     }
 
-    // Buscar usuario por username
-    public Usuario findByUsername(String username) {
-        return usuarioRepository.findByUsername(username).orElse(null);
+    public void guardarUsuario(Usuario usuario) {
+        repo.save(usuario);
     }
-
-        // Guardar o actualizar usuario
-        public Usuario guardarUsuario (Usuario usuario){
-            if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
-                usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-            }
-            return usuarioRepository.save(usuario);
-        }
-
-        // Verificar si un usuario existe
-        public boolean existeUsuario (String username){
-            return usuarioRepository.findByUsername(username).isPresent();
-        }
-    }
+}
 
 
 

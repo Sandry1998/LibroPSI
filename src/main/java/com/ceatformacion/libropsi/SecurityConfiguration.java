@@ -2,11 +2,13 @@ package com.ceatformacion.libropsi;
 
 
 
+import com.ceatformacion.libropsi.services.UsuarioDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,9 +22,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
     @Autowired
-    private CustomSuccessHandler loginSuccessHandler;
+    private UsuarioDetailsService usuarioDetailsService;
+    @Autowired
+    private CustomSuccessHandler successHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -30,31 +33,29 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, CustomSuccessHandler customSuccessHandler) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authBuilder.userDetailsService(usuarioDetailsService).passwordEncoder(passwordEncoder());
+        return authBuilder.build();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        // Páginas públicas
                         .requestMatchers("/", "/registro", "/login", "/css/**", "/images/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/registro", "/guardarUsuario").permitAll()
-
-                        // Rutas solo para admin
-                        .requestMatchers("/admin/**", "/editar/**", "/borrar/**", "/libros/cambiar-estado/**").hasRole("ADMIN")
-
-                        // Rutas para usuarios y admin
-                        .requestMatchers("/libros/**").hasAnyRole("USER", "ADMIN")
-
-                        // Cualquier otra ruta requiere autenticación
+                        .requestMatchers(HttpMethod.POST, "/registro").permitAll()
+                        .requestMatchers("/libros/nuevo", "/libros/guardar", "/libros/editar/**", "/libros/eliminar/**").hasRole("ADMIN")
+                        .requestMatchers("/libros/todos", "/libros/reservar/**", "/historial/usuario", "/historial/eliminar/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .successHandler(loginSuccessHandler)
+                        .successHandler(successHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll());
-
-
 
         return http.build();
     }

@@ -14,17 +14,13 @@ import java.io.IOException;
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
-
-        boolean isAdmin = authentication.getAuthorities().stream()
+    public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication auth) throws IOException {
+        boolean admin = auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        if (isAdmin) {
-            response.sendRedirect("/libros/nuevo"); // redirige al formulario de agregar libros
+        if (admin) {
+            res.sendRedirect("/libros/nuevo");
         } else {
-            response.sendRedirect("/libros/todos"); // redirige al listado para usuarios
+            res.sendRedirect("/libros/todos");
         }
     }
 }

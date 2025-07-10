@@ -17,43 +17,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 
 @Controller
 @RequestMapping("/historial")
 public class HistorialController {
-
     @Autowired
     private HistorialService historialService;
 
     @GetMapping("/usuario")
     public String historialUsuario(@AuthenticationPrincipal UsuarioDetails usuarioDetails, Model model) {
-        model.addAttribute("historiales", historialService.obtenerPorUsuario(usuarioDetails.getUsuario().getIdUsuario()));
-        return "historial_usuario"; // usuario.html
+        int idUsuario = usuarioDetails.getUsuario().getIdUsuario();
+        model.addAttribute("historial", historialService.obtenerPorUsuario(idUsuario));
+        return "historial_usuario";
     }
 
-    @GetMapping("/admin")
-    public String historialAdmin(Model model) {
-        model.addAttribute("historiales", historialService.obtenerTodos());
-        return "historial_admin"; // admin.html
+    @PostMapping("/reservar/{idLibro}")
+    public String reservarLibro(@PathVariable int idLibro, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        Historial h = new Historial();
+        h.setLibro(new Libro());
+        h.getLibro().setIdLibro(idLibro);
+        h.setUsuario(usuarioDetails.getUsuario());
+        h.setEstado("RESERVADO");
+        h.setFechaReserva(LocalDate.now());
+        historialService.guardarHistorial(h);
+        return "redirect:/historial/usuario";
     }
 
-    @PostMapping("/modificar-estado/{id}")
-    public String modificarEstado(@PathVariable int id, @RequestParam String estado) {
-        Optional<Historial> optional = historialService.obtenerPorId(id);
-        if (optional.isPresent()) {
-            Historial historial = optional.get();
-            historial.setEstado(estado);
-            historialService.guardarHistorial(historial);
-        }
-        return "redirect:/historial_admin";
-    }
-
-    @PostMapping("/eliminar/{id}")
-    public String eliminarHistorial(@PathVariable int id) {
-        historialService.eliminarHistorial(id);
-        return "redirect:/historial_admin";
+    @GetMapping("/eliminar/{idHistorial}")
+    public String eliminarHistorial(@PathVariable int idHistorial, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        historialService.eliminarHistorial(idHistorial);
+        return "redirect:/historial/usuario";
     }
 }
 

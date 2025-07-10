@@ -12,31 +12,21 @@ import java.util.Optional;
 @Service
 public class LibroService {
     @Autowired
-    private LibroRepository libroRepository;
+    private LibroRepository repo;
 
-    // Obtener todos los libros
     public List<Libro> obtenerTodos() {
-        return libroRepository.findAll();
+        return repo.findAll();
     }
 
-    // Obtener libro por ID
     public Optional<Libro> obtenerPorId(int id) {
-        return libroRepository.findById(id);
+        return repo.findById(id);
     }
 
-    // Guardar libro (nuevo o editar existente)
-    public Libro guardarLibro(Libro libro) {
-        return libroRepository.save(libro);
+    public void guardarLibro(Libro libro) {
+        repo.save(libro);
     }
 
-    // Eliminar libro por ID
     public void eliminarLibro(int id) {
-        libroRepository.deleteById(id);
-    }
-
-    // Buscar libros por título (contiene texto, case insensitive)
-    public List<Libro> buscarPorTitulo(String titulo) {
-        return libroRepository.findByTituloContainingIgnoreCase(titulo);
+        repo.deleteById(id);
     }
 }
-

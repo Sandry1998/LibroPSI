@@ -3,6 +3,7 @@ package com.ceatformacion.libropsi.controller;
 
 import com.ceatformacion.libropsi.modell.Usuario;
 import com.ceatformacion.libropsi.repository.UsuarioRepository;
+import com.ceatformacion.libropsi.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,76 +14,31 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
+    private UsuarioService usuarioService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Muestra el formulario de login
-    @GetMapping("/login")
-    public String mostrarLogin(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "login";
-    }
-
-    // Muestra el formulario de alta de usuario
     @GetMapping("/registro")
-    public String mostrarFormularioRegistro(Model model) {
+    public String registroForm(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "registro";
     }
 
     @PostMapping("/registro")
     public String registrarUsuario(@ModelAttribute Usuario usuario, Model model) {
-        try {
-            if (usuarioRepository.findByUsername(usuario.getUsername()).isPresent()) {
-                model.addAttribute("error", "El usuario ya existe");
-                model.addAttribute("usuario", usuario);
-                return "registro";
-            }
-
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
-            // Verifica si ya existe un admin
-            boolean existeAdmin = usuarioRepository.findAll()
-                    .stream()
-                    .anyMatch(u -> "ROLE_ADMIN".equals(u.getRol()));
-
-            if (!existeAdmin) {
-                // Si no hay admin, asigna rol ADMIN
-                usuario.setRol("ROLE_ADMIN");
-            } else {
-                // Si ya existe admin, asigna rol USER
-                usuario.setRol("ROLE_USER");
-            }
-
-            usuarioRepository.save(usuario);
-            return "redirect:/login";
-
-        } catch (Exception e) {
-            model.addAttribute("error", "Error al registrar usuario: " + e.getMessage());
-            model.addAttribute("usuario", usuario);
+        if (usuarioService.buscarPorUsername(usuario.getUsername()).isPresent()) {
+            model.addAttribute("error", "El usuario ya existe");
             return "registro";
         }
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuario.setRol("ROLE_USER");
+        usuarioService.guardarUsuario(usuario);
+        return "redirect:/login";
     }
 
-    // Opción alternativa para guardar usuarios (por si se usa desde otro formulario)
-    @PostMapping("/guardarUsuario")
-    public String guardarUsuario(@ModelAttribute Usuario usuario, Model model) {
-        if (usuarioRepository.findByUsername(usuario.getUsername()).isEmpty()) {
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
-            if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
-                usuario.setRol("ROLE_USER");
-            }
-
-            usuarioRepository.save(usuario);
-            return "redirect:/login";  // Redirige a login tras registro
-        } else {
-            model.addAttribute("error", "El usuario ya existe");
-            model.addAttribute("usuario", usuario);
-            return "registro";
-        }
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }
 
