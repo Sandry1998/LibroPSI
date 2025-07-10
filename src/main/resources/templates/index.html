@@ -81,16 +81,11 @@
 </style>
     </head>
 <body>
-<main>
     <div class="container" role="banner" aria-label="Encabezado principal">
         <h1 class="titulo-principal-sombreado-hover">ร้านหนังสือซานดรา</h1>
         <img src="/images/libros.png" alt="Icono de libros" class="libro-icono" />
     </div>
-    <nav>
-        <a th:if="${#authorization.expression('isAuthenticated()')}" href="/libros/todos">Ver libros</a>
-        <a th:if="${!#authorization.expression('isAuthenticated()')}" href="/login">Iniciar sesión</a>
-        <a th:if="${!#authorization.expression('isAuthenticated()')}" href="/registro">Registrarse</a>
-    </nav>
-</main>
+    <a th:href="@{/login}">Iniciar sesión</a> |
+    <a th:href="@{/registro}">Registrarse</a>
 </body>
 </html>

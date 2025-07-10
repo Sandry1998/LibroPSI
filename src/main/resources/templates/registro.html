@@ -151,15 +151,12 @@
     <h1 class="titulo-principal-sombreado-hover"><strong>REGISTRO DE USUARIO</strong></h1>
     <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
 </div>
-<form th:action="@{/registro}" th:object="${usuario}" method="post" novalidate>
-    <div>
-        <label>Usuario:</label>
-        <input type="text" th:field="*{username}" required/>
-    </div>
-    <div>
-        <label>Contraseña:</label>
-        <input type="password" th:field="*{password}" required/>
-    </div>
+<form th:action="@{/registro}" th:object="${usuario}" method="post">
+    <form th:action="@{/registro}" th:object="${usuario}" method="post">
+        <label>Usuario: <input type="text" th:field="*{username}" required/></label><br/>
+        <label>Contraseña: <input type="password" th:field="*{password}" required/></label><br/>
+        <button type="submit">Registrar</button>
+    </form>
 
     <div th:if="${error}">
         <p role="alert" style="color:red;" th:text="${error}"></p>

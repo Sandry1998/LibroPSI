@@ -152,21 +152,14 @@
     <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
 </div>
 <form th:action="@{/login}" method="post">
-    <label for="username">Usuario:</label>
-    <input type="text" id="username" name="username" required/>
-    <br/>
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" name="password" required/>
-    <br/>
+    <label>Usuario: <input type="text" name="username" required/></label><br/>
+    <label>Contraseña: <input type="password" name="password" required/></label><br/>
     <button type="submit">Entrar</button>
 </form>
 
 <div th:if="${param.error}">
     <p role="alert" style="color:red;">Usuario o contraseña incorrectos.</p>
 </div>
-
-<div style="margin-top: 10px;">
-    <a href="/registro">Registrarse</a>
-</div>
+<a th:href="@{/registro}">Registrarse</a>
 </body>
 </html>
