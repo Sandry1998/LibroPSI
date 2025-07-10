@@ -28,7 +28,7 @@ public class LibroController {
     @GetMapping("/todos")
     public String verLibros(Model model) {
         model.addAttribute("libros", libroService.obtenerTodos());
-        return "lista_libros";
+        return "libros_lista";
     }
 
     @GetMapping("/nuevo")

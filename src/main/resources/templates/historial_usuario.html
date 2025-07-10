@@ -26,6 +26,7 @@
         <td th:text="${h.estado}"></td>
         <td th:text="${h.fechaReserva}"></td>
         <td th:text="${h.fechaDevolucion}"></td>
+        <td th:text="${h.observaciones}"></td>
         <td>
             <a th:href="@{/historial/eliminar/{id}(id=${h.idHistorial})}" onclick="return confirm('¿Eliminar reserva?')">Eliminar</a>
         </td>

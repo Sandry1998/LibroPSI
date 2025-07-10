@@ -48,8 +48,8 @@
 </div>
 
 <div>
-    <a th:href="@{/historial/usuario}" th:if="${#authorization.expression('hasRole(''USER'')')}">Mi historial</a>
-    <a th:href="@{/historial/admin}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Historial de usuarios</a>
+    <a th:href="@{/historial_usuario}" th:if="${#authorization.expression('hasRole(''USER'')')}">Mi historial de Reservas</a>
+    <a th:href="@{/historial_admin}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Historial de usuarios</a>
     <a th:href="@{/logout}">Cerrar sesión</a>
 </div>
 </body>
