@@ -23,6 +23,7 @@ public class Historial {
 
     private String estado; // Ej: "RESERVADO"
     private LocalDate fechaReserva;
+    private LocalDate fechaDevolucion;
 
     // Getters y setters
     public int getIdHistorial() { return idHistorial; }
@@ -35,4 +36,9 @@ public class Historial {
     public void setEstado(String estado) { this.estado = estado; }
     public LocalDate getFechaReserva() { return fechaReserva; }
     public void setFechaReserva(LocalDate fechaReserva) { this.fechaReserva = fechaReserva; }
+    public LocalDate getFechaDevolucion() { return fechaDevolucion; }
+
+    public void setFechaDevolucion(LocalDate fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
 }

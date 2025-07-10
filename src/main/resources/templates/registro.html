@@ -152,19 +152,13 @@
     <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
 </div>
 <form th:action="@{/registro}" th:object="${usuario}" method="post">
-    <form th:action="@{/registro}" th:object="${usuario}" method="post">
         <label>Usuario: <input type="text" th:field="*{username}" required/></label><br/>
         <label>Contraseña: <input type="password" th:field="*{password}" required/></label><br/>
         <button type="submit">Registrar</button>
     </form>
-
     <div th:if="${error}">
         <p role="alert" style="color:red;" th:text="${error}"></p>
     </div>
-    <br/>
-    <button type="submit">Registrar</button>
-</form>
-
-<p>¿Ya tienes cuenta? <a th:href="@{/login}">Iniciar sesión</a></p>
+    <a th:href="@{/login}">¿Ya tienes cuenta? Inicia sesión</a>
 </body>
 </html>

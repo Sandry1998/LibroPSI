@@ -8,31 +8,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Mis Reservas</h1>
+<h1>Mis libros reservados</h1>
 
-<table aria-label="Tabla de reservas del usuario">
+<table>
     <thead>
     <tr>
-        <th>Libro</th>
-        <th>Fecha Recogida</th>
-        <th>Fecha Entrega</th>
+        <th>Título</th>
         <th>Estado</th>
-        <th>Observaciones</th>
+        <th>Recogida</th>
+        <th>Entrega</th>
+        <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="historial : ${historiales}">
-        <td th:text="${historial.libro.titulo}"></td>
-        <td th:text="${historial.fechaRecogida}"></td>
-        <td th:text="${historial.fechaEntrega}"></td>
-        <td th:text="${historial.estado}"></td>
-        <td th:text="${historial.observaciones}"></td>
+    <tr th:each="h : ${historial}">
+        <td th:text="${h.libro.titulo}"></td>
+        <td th:text="${h.estado}"></td>
+        <td th:text="${h.fechaReserva}"></td>
+        <td th:text="${h.fechaDevolucion}"></td>
+        <td>
+            <a th:href="@{/historial/eliminar/{id}(id=${h.idHistorial})}" onclick="return confirm('¿Eliminar reserva?')">Eliminar</a>
+        </td>
     </tr>
     </tbody>
 </table>
-<nav>
-<a href="/libros/todos" title="Volver al listado de libros">Volver al listado de libros</a> |
-<a href="/logout" title="Cerrar sesión">Cerrar sesión</a>
-</nav>
+
+<a th:href="@{/libros/todos}">Volver al listado</a> |
+<a th:href="@{/logout}">Cerrar sesión</a>
 </body>
 </html>
