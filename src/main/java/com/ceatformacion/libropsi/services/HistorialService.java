@@ -1,6 +1,7 @@
 package com.ceatformacion.libropsi.services;
 
 import com.ceatformacion.libropsi.modell.Historial;
+import com.ceatformacion.libropsi.modell.Usuario;
 import com.ceatformacion.libropsi.repository.HistorialRepository;
 import com.ceatformacion.libropsi.repository.LibroRepository;
 import com.ceatformacion.libropsi.repository.UsuarioRepository;
@@ -15,9 +16,11 @@ public class HistorialService {
 
     @Autowired
     private HistorialRepository repo;
+    @Autowired
+    private HistorialRepository historialRepository;
 
-    public List<Historial> obtenerPorUsuario(int idUsuario) {
-        return repo.findByUsuarioIdUsuario(idUsuario);
+    public List<Historial> obtenerPorUsuario(Usuario usuario) {
+        return historialRepository.findByUsuarioIdUsuario(usuario.getIdUsuario());
     }
 
     public void guardarHistorial(Historial historial) {
