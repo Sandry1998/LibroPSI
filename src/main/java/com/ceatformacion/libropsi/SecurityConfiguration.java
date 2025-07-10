@@ -55,11 +55,13 @@ public class SecurityConfiguration {
                         .successHandler(successHandler)
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll());
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll());
+
 
         return http.build();
     }
 }
-
-
 
