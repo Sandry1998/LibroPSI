@@ -31,9 +31,10 @@ public class HistorialController {
     private LibroService libroService;
 
     @GetMapping("/usuario")
-    public String historialUsuario(@AuthenticationPrincipal UsuarioDetails usuarioDetails, Model model) {
-        int idUsuario = usuarioDetails.getUsuario().getIdUsuario();
-        model.addAttribute("historial", historialService.obtenerPorUsuario(idUsuario));
+    public String verHistorialUsuario(@AuthenticationPrincipal UsuarioDetails usuarioDetails, Model model) {
+        Usuario usuario = usuarioDetails.getUsuario();
+        List<Historial> historial = historialService.obtenerPorUsuario(usuario);
+        model.addAttribute("historial", historial);
         return "historial_usuario";
     }
 
@@ -53,21 +54,35 @@ public class HistorialController {
         historial.setObservaciones("Reserva creada");
 
         historialService.guardarHistorial(historial);
-        return "redirect:/historial_usuario";
+        return "redirect:/historial/usuario";
     }
 
     @GetMapping("/eliminar/{idHistorial}")
     public String eliminarHistorial(@PathVariable int idHistorial, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
         historialService.eliminarHistorial(idHistorial);
-        return "redirect:/historial_usuario";
+        return "redirect:/historial/usuario";
     }
-    @GetMapping("/usuario")
-    public String verHistorialUsuario(@AuthenticationPrincipal UsuarioDetails usuarioDetails, Model model) {
-        Usuario usuario = usuarioDetails.getUsuario();
-        List<Historial> historial = historialService.obtenerPorUsuario(usuario);
-        model.addAttribute("historial", historial);
-        return "historial_usuario"; // Asegúrate de tener este HTML
+
+    @GetMapping("/admin")
+    public String historialAdmin(Model model) {
+        model.addAttribute("historial", historialService.obtenerTodos());
+        return "historial_admin";
     }
+
+    @PostMapping("/editar")
+    public String editarHistorial(@RequestParam int idHistorial,
+                                  @RequestParam String estado,
+                                  @RequestParam String observaciones) {
+        Optional<Historial> optional = historialService.obtenerPorId(idHistorial);
+        if (optional.isPresent()) {
+            Historial historial = optional.get();
+            historial.setEstado(estado);
+            historial.setObservaciones(observaciones);
+            historialService.guardarHistorial(historial);
+        }
+        return "redirect:/historial/admin";
+    }
+
 
 }
 

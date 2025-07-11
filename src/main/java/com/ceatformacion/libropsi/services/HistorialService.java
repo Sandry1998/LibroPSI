@@ -15,20 +15,26 @@ import java.util.Optional;
 public class HistorialService {
 
     @Autowired
-    private HistorialRepository repo;
-    @Autowired
     private HistorialRepository historialRepository;
 
-    public List<Historial> obtenerPorUsuario(Usuario usuario) {
-        return historialRepository.findByUsuarioIdUsuario(usuario.getIdUsuario());
-    }
-
     public void guardarHistorial(Historial historial) {
-        repo.save(historial);
+        historialRepository.save(historial);
     }
 
-    public void eliminarHistorial(int idHistorial) {
-        repo.deleteById(idHistorial);
+    public void eliminarHistorial(int id) {
+        historialRepository.deleteById(id);
+    }
+
+    public List<Historial> obtenerPorUsuario(Usuario usuario) {
+        return historialRepository.findByUsuario(usuario);
+    }
+
+    public List<Historial> obtenerTodos() {
+        return historialRepository.findAll();
+    }
+
+    public Optional<Historial> obtenerPorId(int id) {
+        return historialRepository.findById(id);
     }
 }
 

@@ -45,8 +45,25 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/registro", "/login", "/css/**", "/images/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/registro").permitAll()
-                        .requestMatchers("/libros/nuevo", "/libros/guardar", "/libros/editar/**", "/libros/eliminar/**").hasRole("ADMIN")
-                        .requestMatchers("/libros/todos", "/libros/reservar/**", "/historial/usuario", "/historial/eliminar/**").hasRole("USER")
+
+                        // Rutas solo para ADMIN
+                        .requestMatchers(
+                                "/libros/nuevo",
+                                "/libros/guardar",
+                                "/libros/editar/**",
+                                "/libros/eliminar/**",
+                                "/historial/admin",
+                                "/historial/editar"
+                        ).hasRole("ADMIN")
+
+                        // Rutas solo para USER
+                        .requestMatchers(
+                                "/libros/todos",
+                                "/libros/reservar/**",
+                                "/historial/usuario",
+                                "/historial/eliminar/**"
+                        ).hasRole("USER")
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -60,8 +77,6 @@ public class SecurityConfiguration {
                         .logoutSuccessUrl("/login?logout")
                         .permitAll());
 
-
         return http.build();
     }
 }
-

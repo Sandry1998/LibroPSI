@@ -25,6 +25,9 @@ public class LibroController {
     @Autowired
     private LibroService libroService;
 
+    @Autowired
+    private HistorialService historialService;
+
     @GetMapping("/todos")
     public String verLibros(Model model) {
         model.addAttribute("libros", libroService.obtenerTodos());

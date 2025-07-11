@@ -14,27 +14,31 @@
     <thead>
     <tr>
         <th>Título</th>
+        <th>Autor</th>
         <th>Estado</th>
-        <th>Recogida</th>
-        <th>Entrega</th>
+        <th>Observaciones</th>
+        <th>Fecha Reserva</th>
+        <th>Fecha Devolución</th>
         <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="h : ${historial}">
         <td th:text="${h.libro.titulo}"></td>
+        <td th:text="${h.libro.autor}"></td>
         <td th:text="${h.estado}"></td>
+        <td th:text="${h.observaciones}"></td>
         <td th:text="${h.fechaReserva}"></td>
         <td th:text="${h.fechaDevolucion}"></td>
-        <td th:text="${h.observaciones}"></td>
         <td>
-            <a th:href="@{/historial/eliminar/{id}(id=${h.idHistorial})}" onclick="return confirm('¿Eliminar reserva?')">Eliminar</a>
+            <a th:href="@{/historial/eliminar/{id}(id=${h.idHistorial})}"  class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este libro?')">Eliminar</a>
         </td>
     </tr>
     </tbody>
 </table>
-
-<a th:href="@{/libros/todos}">Volver al listado</a> |
-<a th:href="@{/logout}">Cerrar sesión</a>
+<div class="mt-4">
+    <a class="btn btn-secondary" th:href="@{/libros/todos}">Volver al listado</a>
+    <a class="btn btn-danger" th:href="@{/logout}">Cerrar sesión</a>
+</div>
 </body>
 </html>

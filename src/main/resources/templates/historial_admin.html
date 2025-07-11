@@ -8,31 +8,54 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Historial de Usuarios</h1>
+<h1>Historial de Libros Reservados por Usuarios</h1>
 <table>
     <thead>
     <tr>
         <th>Usuario</th>
-        <th>Libro</th>
+        <th>Titulo</th>
+        <th>Autor</th>
         <th>Estado</th>
-        <th>Recogida</th>
-        <th>Entrega</th>
         <th>Observaciones</th>
+        <th>Fecha Reserva</th>
+        <th>Fecha Devolución</th>
+        <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="h : ${historial}">
-        <td th:text="${h.usuario.username}"></td>
-        <td th:text="${h.libro.titulo}"></td>
-        <td th:text="${h.estado}"></td>
-        <td th:text="${h.fechaReserva}"></td>
-        <td th:text="${h.fechaDevolucion}"></td>
-        <td th:text="${h.observaciones}"></td>
+            <td th:text="${item.usuario.username}">Usuario</td>
+            <td th:text="${item.libro.titulo}">Título</td>
+            <td th:text="${item.libro.autor}">Autor</td>
+            <td>
+                <form th:action="@{/historial/editar}" method="post">
+                    <input type="hidden" name="idHistorial" th:value="${item.idHistorial}" />
+                    <td>
+                        <select name="estado" class="form-select form-select-sm">
+                            <option th:selected="${item.estado == 'RESERVADO'}">RESERVADO</option>
+                            <option th:selected="${item.estado == 'ENTREGADO'}">ENTREGADO</option>
+                            <option th:selected="${item.estado == 'PENDIENTE'}">PENDIENTE</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="observaciones" th:value="${item.observaciones}" class="form-control form-control-sm"/>
+                    </td>
+                    <td th:text="${item.fechaReserva}">Reserva</td>
+                    <td th:text="${item.fechaDevolucion}">Devolución</td>
+                    <td>
+                        <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+                    </td>
+                </form>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/libros/todos}">Volver</a> |
-<a th:href="@{/logout}">Cerrar sesión</a>
+
+<div class="mt-4">
+    <a class="btn btn-secondary" th:href="@{/libros/todos}">Volver al listado</a>
+    <a class="btn btn-danger" th:href="@{/logout}">Cerrar sesión</a>
+</div>
+
+
 
 </body>
 </html>
