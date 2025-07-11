@@ -8,6 +8,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </head>
 <body>
+<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+  <h1 class="titulo-principal-sombreado-hover"><strong>DATOS DE LIBROS</strong></h1>
+  <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
+</div>
 <h2 th:text="${libro.idLibro == null || libro.idLibro == 0 ? 'Nuevo Libro' : 'Editar Libro'}"></h2>
 
 <form th:action="@{/libros/guardar}" th:object="${libro}" method="post">
