@@ -160,6 +160,9 @@
 <div th:if="${param.error}">
     <p role="alert" style="color:red;">Usuario o contraseña incorrectos.</p>
 </div>
+<div th:if="${param.logout}">
+    <p style="color:green;">Sesión cerrada correctamente.</p>
+</div>
 <a th:href="@{/registro}">Registrarse</a>
 </body>
 </html>

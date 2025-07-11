@@ -55,10 +55,19 @@ public class SecurityConfiguration {
                                 "/historial/admin",
                                 "/historial/editar"
                         ).hasRole("ADMIN")
+                                .requestMatchers(
+                                        "/libros/todos"
+                                ).hasAnyRole("USER", "ADMIN")
+
+// Rutas exclusivas de USER
+                                .requestMatchers(
+                                        "/libros/reservar/**",
+                                        "/historial/usuario",
+                                        "/historial/eliminar/**"
+                                ).hasRole("USER")
 
                         // Rutas solo para USER
                         .requestMatchers(
-                                "/libros/todos",
                                 "/libros/reservar/**",
                                 "/historial/usuario",
                                 "/historial/eliminar/**"
