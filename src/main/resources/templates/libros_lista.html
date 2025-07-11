@@ -31,7 +31,7 @@
             <!--Boton de reservar solo para User-->
             <form th:action="@{'/historial/reservar/' + ${libro.idLibro}}" method="post"
                   th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <button class="btn btn-primary btn-sm" type="submit">Reservar</button>
+                <button type="submit">Reservar</button>
             </form>
 
             <!-- Editar/Eliminar solo para ADMIN -->

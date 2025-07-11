@@ -39,8 +39,8 @@ public class HistorialController {
     }
 
     @PostMapping("/reservar/{idLibro}")
-    public String reservarLibro(@PathVariable int id, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
-        Optional<Libro> libroOpt = libroService.obtenerPorId(id);
+    public String reservarLibro(@PathVariable int idLibro, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        Optional<Libro> libroOpt = libroService.obtenerPorId(idLibro);
         if (libroOpt.isEmpty() || usuarioDetails == null || usuarioDetails.getUsuario() == null) {
             return "redirect:/libros/todos?error=No se pudo reservar";
         }
