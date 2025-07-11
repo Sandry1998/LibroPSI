@@ -47,14 +47,14 @@ public class LibroController {
     }
 
     @GetMapping("/editar/{idLibro}")
-    public String editarLibro(@PathVariable int id, Model model) {
-        libroService.obtenerPorId(id).ifPresent(libro -> model.addAttribute("libro", libro));
+    public String editarLibro(@PathVariable int idLibro, Model model) {
+        libroService.obtenerPorId(idLibro).ifPresent(libro -> model.addAttribute("libro", libro));
         return "libro_formulario";
     }
 
     @GetMapping("/eliminar/{idLibro}")
-    public String eliminarLibro(@PathVariable int id) {
-        libroService.eliminarLibro(id);
+    public String eliminarLibro(@PathVariable int idLibro) {
+        libroService.eliminarLibro(idLibro);
         return "redirect:/libros/todos";
     }
 }
