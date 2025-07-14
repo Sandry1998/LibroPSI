@@ -25,40 +25,18 @@
         }
 
         .titulo-principal-sombreado-hover {
-            text-shadow: 1px 1px 2px #d9c4a0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             font-weight: bold;
-            color: #000;
-            margin: 0.2em 0;
-        }
-
-        .titulo-principal-sombreado-hover.primero {
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            transition: color 0.4s ease;
+            color: #1a0e00;
+            margin: 0.3em 0;
             font-size: 3em;
         }
 
-        .titulo-principal-sombreado-hover.segundo {
-            font-size: 4em;
-        }
-
-        .botones {
-            margin-top: 30px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .botones a {
-            background-color: #6c3f1b;
-            color: #fff;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-        }
-
-        .botones a:hover {
-            background-color: #8e5c2c;
+        .titulo-principal-sombreado-hover:hover {
+            color: #8e5c2c;
         }
 
         .libro-icono {
@@ -66,23 +44,173 @@
             margin: 30px 0;
             user-select: none;
         }
+
+        .formulario-registro {
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .campo-entrada {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .campo-entrada:focus-within {
+            border-color: #6c3f1b;
+        }
+
+        .campo-entrada img {
+            height: 24px;
+            margin-right: 10px;
+            opacity: 0.7;
+        }
+
+        .campo-entrada input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        .campo-entrada input::placeholder {
+            color: #999;
+        }
+
+        .boton-registrar {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .boton-registrar:hover {
+            background-color: #8e5c2c;
+        }
+
+        .mensajes {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .mensaje-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .enlace-login {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .enlace-login a {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 2px solid #6c3f1b;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .enlace-login a:hover {
+            background-color: #8e5c2c;
+            color: #fff;
+        }
+
+        .volver-inicio {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .volver-inicio a {
+            background-color: #8e5c2c;
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .volver-inicio a:hover {
+            background-color: #6c3f1b;
+        }
+
+        @media (max-width: 768px) {
+            .titulo-principal-sombreado-hover {
+                font-size: 2.2em;
+            }
+
+            .formulario-registro {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .libro-icono {
+                height: 80px;
+                margin: 20px 0;
+            }
+        }
     </style>
 </head>
 <body>
-<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-    <h1 class="titulo-principal-sombreado-hover"><strong>REGISTRO DE USUARIO</strong></h1>
-    <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
-</div>
-<form th:action="@{/registro}" th:object="${usuario}" method="post">
-        <label>Usuario: <input type="text" th:field="*{username}" required/></label><br/>
-    <img src="/images/user.png" alt="user">
-        <label>Contraseña: <input type="password" th:field="*{password}" required/></label><br/>
-    <img src="/images/user.png" alt="user">
-        <button type="submit">Registrarse</button>
-    </form>
-    <div th:if="${error}">
-        <p role="alert" style="color:red;" th:text="${error}"></p>
+<div class="contenedor-central">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <h1 class="titulo-principal-sombreado-hover"><strong>REGISTRO DE USUARIO</strong></h1>
+        <img src="/images/libros.png" alt="libro" class="libro-icono">
     </div>
-    <a th:href="@{/login}">¿Ya tienes cuenta? Inicia sesión</a>
+
+    <form th:action="@{/registro}" th:object="${usuario}" method="post" class="formulario-registro">
+        <div class="campo-entrada">
+            <img src="/images/user.png" alt="user">
+            <input type="text" th:field="*{username}" placeholder="Usuario" required>
+        </div>
+
+        <div class="campo-entrada">
+            <img src="/images/door-key.png" alt="key">
+            <input type="password" th:field="*{password}" placeholder="Contraseña" required>
+        </div>
+
+        <button type="submit" class="boton-registrar">Registrarse</button>
+    </form>
+
+    <div class="mensajes">
+        <div th:if="${error}" class="mensaje-error">
+            <p role="alert" th:text="${error}"></p>
+        </div>
+    </div>
+
+    <div class="enlace-login">
+        <a th:href="@{/login}">¿Ya tienes cuenta? Inicia sesión</a>
+    </div>
+</div>
 </body>
 </html>

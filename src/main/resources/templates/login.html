@@ -7,164 +7,223 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <style>
-        body {
+        html, body {
+            margin: 0;
+            padding: 0;
             font-family: 'Georgia', serif;
             background-color: #f2e6d9;
             color: #3e2f1c;
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
         }
 
-        form {
-            background: rgba(242, 230, 217, 0.9);
-            padding: 25px 35px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(163, 123, 91, 0.6);
-            max-width: 400px;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 20px;
+        .contenedor-central {
             text-align: center;
         }
 
-        label {
-            display: block;
+        .titulo-principal-sombreado-hover {
+            text-transform: uppercase;
+            letter-spacing: 3px;
             font-weight: bold;
-            margin-bottom: 6px;
-            text-shadow: 1px 1px 1px #f2e6d9;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            transition: color 0.4s ease;
+            color: #1a0e00;
+            margin: 0.3em 0;
+            font-size: 3.5em;
         }
 
-        input, select {
-            width: 100%;
-            padding: 8px 10px;
-            margin-bottom: 15px;
-            border: 2px solid #a67c3c;
-            border-radius: 6px;
-            font-family: 'Georgia', serif;
-            box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
-            transition: border-color 0.3s ease;
-            font-size: 1em;
+        .titulo-principal-sombreado-hover:hover {
+            color: #8e5c2c;
         }
 
-        input:focus, select:focus {
-            border-color: #7c5a1c;
-            box-shadow: 0 0 8px #c19a6b;
-            outline: none;
-        }
-
-        button {
-            background: rgba(193, 154, 107, 0.85);
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-size: 1.1em;
-            cursor: pointer;
-            box-shadow: 2px 2px 8px rgba(163, 123, 91, 0.7);
-            transition: background-color 0.3s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            background: #a97b50;
-        }
-
-        #btnMostrarRegistro, #btnVolverLogin {
-            border: 2px solid #a67c3c;
-            font-weight: bold;
-            max-width: 400px;
-            width: 100%;
-            padding: 12px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 2px 2px 5px rgba(163,123,91,0.5);
-            transition: background-color 0.3s ease, color 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        #btnMostrarRegistro:hover, #btnVolverLogin:hover {
-            background-color: #a67c3c;
-            color: white;
-        }
-        #btnVolverLogin {
-            background-color: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            cursor: pointer;
-            margin-top: 40px;
-            width: auto; /* que no ocupe todo el ancho */
-        }
-
-        #btnVolverLogin img {
-            height: 60px; /* ajusta el tamaño del icono */
-            display: block;
-        }
-        .header-login {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .header-login img {
+        .libro-icono {
             height: 100px;
+            margin: 30px 0;
+            user-select: none;
         }
 
-        .input-icon {
+        .formulario-login {
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .campo-entrada {
             display: flex;
             align-items: center;
-            border: 2px solid #a67c3c;
-            border-radius: 6px;
-            padding: 6px 10px;
-            background: rgba(242, 230, 217, 0.9);
-            box-shadow: inset 0 1px 3px rgba(255,255,255,0.3);
             margin-bottom: 15px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            transition: border-color 0.3s ease;
         }
 
-        .input-icon img {
-            height: 20px;
+        .campo-entrada:focus-within {
+            border-color: #6c3f1b;
+        }
+
+        .campo-entrada img {
+            height: 24px;
             margin-right: 10px;
+            opacity: 0.7;
         }
 
-        .input-icon input {
+        .campo-entrada input {
+            flex: 1;
             border: none;
             outline: none;
-            flex-grow: 1;
+            padding: 10px;
             font-family: 'Georgia', serif;
-            font-size: 1em;
+            font-size: 16px;
             background: transparent;
         }
 
+        .campo-entrada input::placeholder {
+            color: #999;
+        }
 
+        .boton-entrar {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .boton-entrar:hover {
+            background-color: #8e5c2c;
+        }
+
+        .mensajes {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .mensaje-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .mensaje-exito {
+            color: #155724;
+            background-color: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .enlace-registro {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .enlace-registro a {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 2px solid #6c3f1b;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .enlace-registro a:hover {
+            background-color: #8e5c2c;
+            color: #fff;
+        }
+
+        .volver-inicio {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .volver-inicio a {
+            background-color: #8e5c2c;
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .volver-inicio a:hover {
+            background-color: #6c3f1b;
+        }
+
+        @media (max-width: 768px) {
+            .titulo-principal-sombreado-hover {
+                font-size: 2.5em;
+            }
+
+            .formulario-login {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .libro-icono {
+                height: 80px;
+                margin: 20px 0;
+            }
+        }
     </style>
 </head>
 <body>
-<div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-    <h1 class="titulo-principal-sombreado-hover"><strong>INICIO SESIÓN</strong></h1>
-    <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
-</div>
-<form th:action="@{/login}" method="post">
-    <label>Usuario: <input type="text" name="username" required/></label><br/>
-    <img src="/images/user.png" alt="user">
-    <label>Contraseña: <input type="password" name="password" required/></label><br/>
-    <img src="/images/door-key.png" alt="user">
-    <button type="submit">Entrar</button>
-</form>
+<div class="contenedor-central">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <h1 class="titulo-principal-sombreado-hover"><strong>INICIO SESIÓN</strong></h1>
+        <img src="/images/libros.png" alt="libro" class="libro-icono">
+    </div>
 
-<div th:if="${param.error}">
-    <p role="alert" style="color:red;">Usuario o contraseña incorrectos.</p>
+    <form th:action="@{/login}" method="post" class="formulario-login">
+        <div class="campo-entrada">
+            <img src="/images/user.png" alt="user">
+            <input type="text" name="username" placeholder="Usuario" required>
+        </div>
+
+        <div class="campo-entrada">
+            <img src="/images/door-key.png" alt="key">
+            <input type="password" name="password" placeholder="Contraseña" required>
+        </div>
+
+        <button type="submit" class="boton-entrar">Entrar</button>
+    </form>
+
+    <div class="mensajes">
+        <div th:if="${param.error}" class="mensaje-error">
+            <p role="alert">Usuario o contraseña incorrectos.</p>
+        </div>
+
+        <div th:if="${param.logout}" class="mensaje-exito">
+            <p>Sesión cerrada correctamente.</p>
+        </div>
+    </div>
+
+    <div class="enlace-registro">
+        <a th:href="@{/registro}">Registrarse</a>
+    </div>
 </div>
-<div th:if="${param.logout}">
-    <p style="color:green;">Sesión cerrada correctamente.</p>
-</div>
-<a th:href="@{/registro}">Registrarse</a>
 </body>
 </html>

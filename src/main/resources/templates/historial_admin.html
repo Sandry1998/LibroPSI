@@ -6,6 +6,222 @@
     <link rel="icon" href="/images/book.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Georgia', serif;
+            background-color: #f2e6d9;
+            color: #3e2f1c;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .titulo-principal-sombreado-hover {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            transition: color 0.4s ease;
+            color: #1a0e00;
+            margin: 0.3em 0;
+            font-size: 2.2em;
+        }
+
+        .titulo-principal-sombreado-hover:hover {
+            color: #8e5c2c;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .header-container img {
+            height: 100px;
+            margin: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        table th {
+            background-color: #6c3f1b;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+            transition: background-color 0.3s ease;
+            font-family: 'Georgia', serif;
+            font-size: 11px;
+        }
+
+        .btn:hover {
+            background-color: #8e5c2c;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 10px;
+        }
+
+        .mt-3 {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-icon img {
+            height: 30px;
+            width: 30px;
+        }
+
+        /* Inputs dentro de la tabla */
+        table input[type="text"] {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 12px;
+            font-family: 'Georgia', serif;
+        }
+
+        table input[type="text"]:focus {
+            border-color: #6c3f1b;
+            outline: none;
+        }
+
+        table select {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 12px;
+            font-family: 'Georgia', serif;
+            background-color: #fff;
+        }
+
+        table select:focus {
+            border-color: #6c3f1b;
+            outline: none;
+        }
+
+        .form-select-sm {
+            font-size: 11px;
+            padding: 3px;
+        }
+
+        .form-control-sm {
+            font-size: 11px;
+            padding: 3px;
+        }
+
+        /* Responsivo para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .titulo-principal-sombreado-hover {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            table th,
+            table td {
+                padding: 6px;
+            }
+
+            .btn {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+        }
+
+        /* Estilos para estados */
+        .estado-reservado {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .estado-entregado {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .estado-cancelado {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
@@ -61,10 +277,10 @@
 <div class="mt-3">
     <a class="btn btn-secondary" th:href="@{/libros/todos}">Volver al listado</a>
     <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn btn-dark">Cerrar sesión</button>
+        <button type="submit" class="btn-icon">
+            <img src="/images/exit.png" alt="Botón logout">
+        </button>
     </form>
 </div>
-
-
 </body>
 </html>
