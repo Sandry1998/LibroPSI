@@ -103,7 +103,6 @@
         .btn-success {
             background-color: #28a745;
         }
-
         .btn-success:hover {
             background-color: #218838;
         }
@@ -128,7 +127,6 @@
         .btn-danger {
             background-color: #dc3545;
         }
-
         .btn-danger:hover {
             background-color: #c82333;
         }
@@ -179,8 +177,8 @@
 
         button[type="submit"],
         .btn {
-            background-color: #6c3f1b;
-            color: #fff;
+
+            color: black;
             padding: 12px 20px;
             border: none;
             border-radius: 5px;
@@ -203,10 +201,33 @@
             margin: 0;
         }
 
-        .logout-container {
+        .container {
             text-align: center;
             margin-top: 20px;
+            background: #6c3f1b;
+            padding: 0;
         }
+        /* Responsivo para pantallas pequeñas */
+        @media (max-width: 768px) {
+            .titulo-principal-sombreado-hover {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            table th,
+            table td {
+                padding: 6px;
+            }
+
+            .btn {
+                padding: 4px 8px;
+                font-size: 10px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -263,7 +284,7 @@
 </div>
 
 <!-- Cerrar sesión -->
-<div class="logout-container">
+<div class="container">
     <form th:action="@{/logout}" method="post">
         <button type="submit" class="btn-icon">
             <img src="/images/exit.png" alt="Botón logout">
