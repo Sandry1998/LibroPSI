@@ -11,7 +11,11 @@
             margin: 0;
             padding: 20px;
             font-family: 'Georgia', serif;
-            background-color: #f2e6d9;
+            background-image: url('/images/libreria.png'); /* Ruta relativa */
+            background-size: cover;         /* Ocupa todo el fondo */
+            background-position: center;    /* Centrado */
+            background-repeat: no-repeat;   /* No se repite */
+            background-attachment: fixed;   /* Permite scroll sobre imagen fija */
             color: #3e2f1c;
             min-height: 100vh;
             line-height: 1.6;
@@ -23,7 +27,7 @@
             font-weight: bold;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             transition: color 0.4s ease;
-            color: #1a0e00;
+            color: white;
             margin: 0.3em 0;
             font-size: 2.5em;
         }
@@ -173,20 +177,24 @@
             flex-wrap: wrap;
         }
 
-        button[type="submit"] {
+        button[type="submit"],
+        .btn {
             background-color: #6c3f1b;
             color: #fff;
-            padding: 8px 15px;
+            padding: 12px 20px;
             border: none;
             border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
             transition: background-color 0.3s ease;
             font-family: 'Georgia', serif;
-            font-size: 12px;
         }
 
-        button[type="submit"]:hover {
+        button[type="submit"]:hover,
+        .btn:hover {
             background-color: #8e5c2c;
         }
 

@@ -11,10 +11,12 @@
             margin: 0;
             padding: 20px;
             font-family: 'Georgia', serif;
-            background-color: #f2e6d9;
+            background-image: url('/images/libreria.png'); /* Ruta relativa */
+            background-size: cover;         /* Ocupa todo el fondo */
+            background-position: center;    /* Centrado */
+            background-repeat: no-repeat;   /* No se repite */
+            background-attachment: fixed;   /* Permite scroll sobre imagen fija */
             color: #3e2f1c;
-            min-height: 100vh;
-            line-height: 1.6;
         }
 
         .titulo-principal-sombreado-hover {
@@ -23,7 +25,7 @@
             font-weight: bold;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             transition: color 0.4s ease;
-            color: #1a0e00;
+            color: white;
             margin: 0.3em 0;
             font-size: 2.2em;
         }
@@ -127,23 +129,27 @@
             flex-wrap: wrap;
         }
 
-        .btn-icon {
-            background: none;
+        button[type="submit"],
+        .btn {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 12px 20px;
             border: none;
-            cursor: pointer;
-            padding: 5px;
             border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
             transition: background-color 0.3s ease;
+            font-family: 'Georgia', serif;
         }
 
-        .btn-icon:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+        button[type="submit"]:hover,
+        .btn:hover {
+            background-color: #8e5c2c;
         }
 
-        .btn-icon img {
-            height: 30px;
-            width: 30px;
-        }
 
         /* Inputs dentro de la tabla */
         table input[type="text"] {
@@ -225,7 +231,7 @@
 </head>
 <body>
 <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-    <h1 class="titulo-principal-sombreado-hover"><strong>LIBROS RESERVADOS POR USUARIOS</strong></h1>
+    <h1 class="titulo-principal-sombreado-hover"><strong>LIBROS RESERVADOS</strong></h1>
     <img src="/images/libros.png" alt="libro" style="height: 100px; margin: 40px;">
 </div>
 <table>
@@ -244,27 +250,22 @@
     <tbody>
     <tr th:each="h : ${historial}">
         <form th:action="@{/historial/editar}" method="post">
-            <input type="hidden" name="idHistorial" th:value="${h.idHistorial}"/>
-
-            <td th:text="${h.usuario.username}">Usuario</td>
-            <td th:text="${h.libro.titulo}">Título</td>
-            <td th:text="${h.libro.autor}">Autor</td>
-
+            <input type="hidden" name="idHistorial" th:value="${h.idHistorial}" />
+            <td th:text="${h.usuario.username}"></td>
+            <td th:text="${h.libro.titulo}"></td>
+            <td th:text="${h.libro.autor}"></td>
             <td>
                 <select name="estado" class="form-select form-select-sm">
                     <option th:value="'RESERVADO'" th:selected="${h.estado == 'RESERVADO'}">RESERVADO</option>
                     <option th:value="'ENTREGADO'" th:selected="${h.estado == 'ENTREGADO'}">ENTREGADO</option>
-                    <option th:value="'CANCELADO'" th:selected="${h.estado == 'PENDIENTE'}">CANCELADO</option>
+                    <option th:value="'CANCELADO'" th:selected="${h.estado == 'CANCELADO'}">CANCELADO</option>
                 </select>
             </td>
-
             <td>
                 <input type="text" name="observaciones" th:value="${h.observaciones}" class="form-control form-control-sm"/>
             </td>
-
-            <td th:text="${h.fechaReserva}">Fecha Reserva</td>
-            <td th:text="${h.fechaDevolucion}">Fecha Devolución</td>
-
+            <td th:text="${h.fechaReserva}"></td>
+            <td th:text="${h.fechaDevolucion}"></td>
             <td>
                 <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
             </td>

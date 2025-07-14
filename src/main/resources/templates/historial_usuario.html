@@ -11,7 +11,11 @@
             margin: 0;
             padding: 20px;
             font-family: 'Georgia', serif;
-            background-color: #f2e6d9;
+            background-image: url('/images/libreria.png'); /* Ruta relativa */
+            background-size: cover;         /* Ocupa todo el fondo */
+            background-position: center;    /* Centrado */
+            background-repeat: no-repeat;   /* No se repite */
+            background-attachment: fixed;   /* Permite scroll sobre imagen fija */
             color: #3e2f1c;
             min-height: 100vh;
             line-height: 1.6;
@@ -23,9 +27,9 @@
             font-weight: bold;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             transition: color 0.4s ease;
-            color: #1a0e00;
+            color: white;
             margin: 0.3em 0;
-            font-size: 2.5em;
+            font-size: 2.5rem;
         }
 
         .titulo-principal-sombreado-hover:hover {
@@ -126,23 +130,27 @@
             flex-wrap: wrap;
         }
 
-        .btn-icon {
-            background: none;
+        button[type="submit"],
+        .btn {
+            background-color: #6c3f1b;
+            color: #fff;
+            padding: 12px 20px;
             border: none;
-            cursor: pointer;
-            padding: 5px;
             border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
             transition: background-color 0.3s ease;
+            font-family: 'Georgia', serif;
         }
 
-        .btn-icon:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+        button[type="submit"]:hover,
+        .btn:hover {
+            background-color: #8e5c2c;
         }
 
-        .btn-icon img {
-            height: 30px;
-            width: 30px;
-        }
 
         .actions-container {
             display: flex;
@@ -209,16 +217,11 @@
     </tr>
     </thead>
     <tbody>
+    <tbody>
     <tr th:each="h : ${historial}">
         <td th:text="${h.libro.titulo}"></td>
         <td th:text="${h.libro.autor}"></td>
-        <td>
-            <select name="estado" class="form-select form-select-sm">
-                <option th:value="'RESERVADO'" th:selected="${h.estado == 'RESERVADO'}">RESERVADO</option>
-                <option th:value="'ENTREGADO'" th:selected="${h.estado == 'ENTREGADO'}">ENTREGADO</option>
-                <option th:value="'CANCELADO'" th:selected="${h.estado == 'PENDIENTE'}">CANCELADO</option>
-            </select>
-        </td>
+        <td th:text="${h.estado}"></td>
         <td th:text="${h.observaciones}"></td>
         <td th:text="${h.fechaReserva}"></td>
         <td th:text="${h.fechaDevolucion}"></td>
@@ -234,8 +237,8 @@
 <!-- Botones de navegación -->
 <div class="mt-3">
     <a class="btn btn-secondary" th:href="@{/libros/todos}">Volver al listado</a>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn-icon">
+    <form th:action="@{/logout}" method="post" >
+        <button type="submit" class="btn-icon" >
             <img src="/images/exit.png" alt="Botón logout">
         </button>
     </form>

@@ -11,7 +11,11 @@
             margin: 0;
             padding: 0;
             font-family: 'Georgia', serif;
-            background-color: #f2e6d9;
+            background-image: url('/images/libreria.png'); /* Ruta relativa */
+            background-size: cover;         /* Ocupa todo el fondo */
+            background-position: center;    /* Centrado */
+            background-repeat: no-repeat;   /* No se repite */
+            background-attachment: fixed;   /* Permite scroll sobre imagen fija */
             color: #3e2f1c;
             height: 100vh;
             display: flex;
@@ -30,7 +34,7 @@
             font-weight: bold;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             transition: color 0.4s ease;
-            color: #1a0e00;
+            color: white;
             margin: 0.3em 0;
             font-size: 3.5em;
         }
