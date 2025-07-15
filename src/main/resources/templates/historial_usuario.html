@@ -29,13 +29,12 @@
             transition: color 0.4s ease;
             color: white;
             margin: 0.3em 0;
-            font-size: 40px !important;
-
         }
+
 
         .titulo-principal-sombreado-hover:hover {
             color: #8e5c2c;
-            font-size: 40px !important;
+
         }
 
         .header-container {
@@ -44,13 +43,18 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 30px;
-
         }
+
+        .header-container h1 {
+            font-size: 100px !important;
+        }
+
 
         .header-container img {
-            height: 100px;
-            margin: 40px;
+            height: auto;
+            max-height: 100px;
         }
+
 
         table {
             width: 100%;
@@ -248,7 +252,7 @@
 </head>
 <body>
 <div class="header-container">
-    <h1 class="titulo-principal-sombreado-hover"><strong>MIS RESERVAS</strong></h1>
+    <h1 class="titulo-principal-sombreado-hover">MIS RESERVAS</h1>
     <img src="/images/libros.png" alt="libro">
 </div>
 
