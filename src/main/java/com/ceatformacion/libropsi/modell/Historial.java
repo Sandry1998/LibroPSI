@@ -18,7 +18,7 @@ public class Historial {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_libro", nullable = false)
+    @JoinColumn(name = "id_libro", nullable = true)
     private Libro libro;
 
     private String estado; // Ej: "RESERVADO"

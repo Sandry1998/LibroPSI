@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Controller
@@ -29,10 +30,18 @@ public class LibroController {
     private HistorialService historialService;
 
     @GetMapping("/todos")
-    public String verLibros(Model model) {
-        model.addAttribute("libros", libroService.obtenerTodos());
+    public String verLibros(Model model, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        List<Libro> libros = libroService.obtenerTodos();
+        model.addAttribute("libros", libros);
+
+        // Añadir nombre del usuario logueado
+        if (usuarioDetails != null && usuarioDetails.getUsuario() != null) {
+            model.addAttribute("nombreUsuario", usuarioDetails.getUsuario().getUsername());
+        }
+
         return "libros_lista";
     }
+
 
     @GetMapping("/nuevo")
     public String nuevoLibro(Model model) {

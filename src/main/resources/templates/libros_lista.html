@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:text-transform="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>LIBRERIA SANDRA</title>
@@ -42,6 +42,7 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 30px;
+            font-size: 30px;
         }
 
         .header-container img {
@@ -53,22 +54,22 @@
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            background-color: #fff;
+            background-color: #6c3f1b;;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
         }
 
         table th,
         table td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
 
         table th {
-            background-color: #6c3f1b;
-            color: #fff;
+            background-color: #6c3f1b !important;
+            color: white !important;
             font-weight: bold;
         }
 
@@ -93,7 +94,7 @@
             margin: 2px;
             transition: background-color 0.3s ease;
             font-family: 'Georgia', serif;
-            font-size: 12px;
+            font-size: 18px;
         }
 
         .btn:hover {
@@ -101,18 +102,20 @@
         }
 
         .btn-success {
-            background-color: #28a745;
+            background-color: #218838 !important;
         }
         .btn-success:hover {
-            background-color: #218838;
+            background-color: #DBFFCB !important;
+            color: black;
         }
 
         .btn-info {
-            background-color: #17a2b8;
+            background-color: #34699A;
         }
 
         .btn-info:hover {
-            background-color: #138496;
+            background-color: #8CCDEB !important;
+            color: black;
         }
 
         .btn-warning {
@@ -121,27 +124,30 @@
         }
 
         .btn-warning:hover {
-            background-color: #e0a800;
+            background-color: #FFF9BD !important;
         }
 
         .btn-danger {
-            background-color: #dc3545;
+            background-color: #DC2525;
         }
         .btn-danger:hover {
-            background-color: #c82333;
+            background-color: #FF8282 !important;
+            color: black;
         }
 
         .btn-secondary {
-            background-color: #6c757d;
+            background-color:  #e0a800;
+            color: black;
         }
 
         .btn-secondary:hover {
-            background-color: #5a6268;
+            background-color: #FFF9BD !important;
+            color: black !important;
         }
 
         .btn-sm {
             padding: 6px 12px;
-            font-size: 11px;
+            font-size: 16px;
         }
 
         .mt-3 {
@@ -150,7 +156,8 @@
         }
 
         .btn-icon {
-            background: none;
+            background-color:  #DC2525;
+            color: black;
             border: none;
             cursor: pointer;
             padding: 5px;
@@ -159,13 +166,28 @@
         }
 
         .btn-icon:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: #FF8282 !important;
         }
 
         .btn-icon img {
             height: 30px;
             width: 30px;
         }
+
+        .btn-icono{
+            background-color:  #007bff !important;
+            color: white !important;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-icono:hover {
+            background-color: #0056b3 !important;
+            color: white !important;
+        }
+
 
         .actions-container {
             display: flex;
@@ -200,13 +222,12 @@
             display: inline-block;
             margin: 0;
         }
-
         .container {
             text-align: center;
             margin-top: 20px;
-            background: #6c3f1b;
             padding: 0;
         }
+
         /* Responsivo para pantallas pequeñas */
         @media (max-width: 768px) {
             .titulo-principal-sombreado-hover {
@@ -232,8 +253,13 @@
 </head>
 <body>
 <div class="header-container">
-    <h1 class="titulo-principal-sombreado-hover"><strong>LISTADO DE LIBROS</strong></h1>
+    <h1 class="titulo-principal-sombreado-hover">
+        <strong>LISTADO DE LIBROS</strong> - <span th:text="${nombreUsuario}" style="text-transform: uppercase;">Usuario</span>
+    </h1>
     <img src="/images/libros.png" alt="libro">
+</div>
+<div th:if="${param.error}" style="margin-bottom: 20px;">
+    <p style="color: red; font-weight: bold;" th:text="${param.error}"></p>
 </div>
 
 <table class="table table-bordered mt-3">
@@ -258,7 +284,7 @@
             <!--Boton de reservar solo para User-->
             <form th:action="@{'/historial/reservar/' + ${libro.idLibro}}" method="post"
                   th:if="${#authorization.expression('hasRole(''USER'')')}">
-                <button type="submit">Reservar</button>
+                <button type="submit" class="btn-icono">Reservar</button>
             </form>
 
             <!-- Editar/Eliminar solo para ADMIN -->

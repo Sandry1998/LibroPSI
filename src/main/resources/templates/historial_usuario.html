@@ -29,11 +29,13 @@
             transition: color 0.4s ease;
             color: white;
             margin: 0.3em 0;
-            font-size: 2.5rem;
+            font-size: 40px !important;
+
         }
 
         .titulo-principal-sombreado-hover:hover {
             color: #8e5c2c;
+            font-size: 40px !important;
         }
 
         .header-container {
@@ -42,6 +44,7 @@
             justify-content: center;
             gap: 10px;
             margin-bottom: 30px;
+
         }
 
         .header-container img {
@@ -57,6 +60,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 18px !important;
         }
 
         table th,
@@ -81,8 +85,8 @@
         }
 
         .btn {
-            background-color: #6c3f1b;
-            color: #fff;
+            background-color:  #e0a800 !important;
+            color: black !important;
             padding: 8px 15px;
             border: none;
             border-radius: 5px;
@@ -93,27 +97,33 @@
             margin: 2px;
             transition: background-color 0.3s ease;
             font-family: 'Georgia', serif;
-            font-size: 12px;
+            font-size: 18px;
         }
 
         .btn:hover {
-            background-color: #8e5c2c;
+            background-color: #FFF9BD !important;
+            color: black !important;
         }
 
         .btn-danger {
-            background-color: #dc3545;
+            background-color: #DC2525 !important;
+            color: white !important;
+            font-size: 18px !important;
         }
 
         .btn-danger:hover {
-            background-color: #c82333;
+            background-color: #FF8282 !important;
+            color: white !important;
         }
 
         .btn-secondary {
-            background-color: #6c757d;
+            background-color:  #e0a800 !important;
+            color: black !important;
         }
 
         .btn-secondary:hover {
-            background-color: #5a6268;
+            background-color: #FFF9BD !important;
+            color: black !important;
         }
 
         .btn-sm {
@@ -130,7 +140,7 @@
             flex-wrap: wrap;
         }
         .btn-icon {
-            background: none;
+            background-color: #DC2525 !important;
             border: none;
             cursor: pointer;
             padding: 5px;
@@ -139,7 +149,7 @@
         }
 
         .btn-icon:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: #FF8282 !important;
         }
 
         .btn-icon img {
@@ -255,7 +265,6 @@
     </tr>
     </thead>
     <tbody>
-    <tbody>
     <tr th:each="h : ${historial}">
         <td th:text="${h.libro.titulo}"></td>
         <td th:text="${h.libro.autor}"></td>
@@ -270,6 +279,7 @@
         </td>
     </tr>
     </tbody>
+
 </table>
 
 <!-- Botones de navegación -->
