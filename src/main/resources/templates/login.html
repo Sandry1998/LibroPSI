@@ -26,6 +26,18 @@
 
         .contenedor-central {
             text-align: center;
+
+        }
+
+
+        .contenedor-central h1 {
+            font-size: 80px !important;
+        }
+
+
+        .contenedor-central img {
+            height: auto;
+            max-height: 100px;
         }
 
         .titulo-principal-sombreado-hover {
@@ -150,6 +162,7 @@
             border: 2px solid #6c3f1b;
             transition: all 0.3s ease;
             display: inline-block;
+            font-size: 22px !important;
         }
 
         .enlace-registro a:hover {
@@ -176,6 +189,29 @@
         .volver-inicio a:hover {
             background-color: #6c3f1b;
         }
+        .btn-icon-fijo {
+            position: fixed;
+            top: 80px;
+            left: 80px;
+            z-index: 999;
+            background-color:  #e0a800 !important;
+            color: black !important;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-icon-fijo:hover {
+            background-color: #FFF9BD !important;
+            color: black !important;
+        }
+
+        .btn-icon-fijo img {
+            height: 40px;
+            width: 40px;
+        }
 
         @media (max-width: 768px) {
             .titulo-principal-sombreado-hover {
@@ -195,6 +231,9 @@
     </style>
 </head>
 <body>
+<a th:href="@{/}" class="btn-icon-fijo">
+    <img src="/images/punto.png" alt="Inicio">
+</a>
 <div class="contenedor-central">
     <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
         <h1 class="titulo-principal-sombreado-hover"><strong>INICIO SESIÓN</strong></h1>
