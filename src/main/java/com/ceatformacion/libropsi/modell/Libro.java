@@ -17,6 +17,7 @@ public class Libro {
     private int paginas;
 
 
+
     public int getIdLibro() {
         return idLibro;
     }
@@ -64,7 +65,6 @@ public class Libro {
     public void setPaginas(int paginas) {
         this.paginas = paginas;
     }
-
 
     @Override
     public String toString() {
