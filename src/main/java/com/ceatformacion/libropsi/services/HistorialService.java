@@ -21,8 +21,8 @@ public class HistorialService {
         historialRepository.save(historial);
     }
 
-    public void eliminarHistorial(int id) {
-        historialRepository.deleteById(id);
+    public void eliminarHistorial(int idHistorial) {
+        historialRepository.deleteById(idHistorial);
     }
 
     public List<Historial> obtenerPorUsuario(Usuario usuario) {
@@ -33,9 +33,12 @@ public class HistorialService {
         return historialRepository.findAll();
     }
 
-    public Optional<Historial> obtenerPorId(int id) {
-        return historialRepository.findById(id);
+    public Optional<Historial> obtenerPorId(int idHistorial) {
+        return historialRepository.findById(idHistorial);
     }
+
+
+
 }
 
 

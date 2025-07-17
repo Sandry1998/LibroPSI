@@ -27,6 +27,7 @@ public class UsuarioDetails implements UserDetails {
         return List.of(new SimpleGrantedAuthority(usuario.getRol()));
     }
 
+
     @Override
     public String getPassword() {
         return usuario.getPassword();

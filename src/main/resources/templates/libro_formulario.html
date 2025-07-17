@@ -80,7 +80,7 @@
       padding: 12px;
       border: 2px solid #8e5c2c;
       border-radius: 5px;
-      font-size: 14px;
+      font-size: 20px;
       font-family: 'Georgia', serif;
       background-color: #fff;
       transition: border-color 0.3s ease;
@@ -145,11 +145,11 @@
 </head>
 <body>
 <div class="header-container">
-  <h1 class="titulo-principal-sombreado-hover"><strong>DATOS DE LIBROS</strong></h1>
+  <h1 class="titulo-principal-sombreado-hover"><strong>FORMULARIO LIBROS</strong></h1>
   <img src="/images/libros.png" alt="libro">
 </div>
 
-<h2 th:text="${libro.idLibro == null || libro.idLibro == 0 ? 'AÑADIR LIBROS' : 'Editar Libro'}"></h2>
+<h2 th:text="${libro.idLibro == null || libro.idLibro == 0 ? 'AGREGAR LIBROS' : 'Editar Libro'}"></h2>
 
 <form th:action="@{/libros/guardar}" th:object="${libro}" method="post">
   <input type="hidden" th:field="*{idLibro}" />

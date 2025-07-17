@@ -4,6 +4,7 @@ import com.ceatformacion.libropsi.modell.Historial;
 import com.ceatformacion.libropsi.modell.Libro;
 import com.ceatformacion.libropsi.modell.Usuario;
 
+import com.ceatformacion.libropsi.repository.HistorialRepository;
 import com.ceatformacion.libropsi.services.HistorialService;
 import com.ceatformacion.libropsi.services.LibroService;
 import com.ceatformacion.libropsi.services.UsuarioDetails;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -28,20 +31,23 @@ public class LibroController {
 
     @Autowired
     private HistorialService historialService;
+    @Autowired
+    private HistorialRepository historialRepository;
 
     @GetMapping("/todos")
     public String verLibros(Model model, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
         List<Libro> libros = libroService.obtenerTodos();
         model.addAttribute("libros", libros);
 
-        // Añadir nombre del usuario logueado
+        // Nombre del usuario en mayúsculas
         if (usuarioDetails != null && usuarioDetails.getUsuario() != null) {
-            model.addAttribute("nombreUsuario", usuarioDetails.getUsuario().getUsername());
+            model.addAttribute("nombreUsuario", usuarioDetails.getUsuario().getUsername().toUpperCase());
+
         }
-
         return "libros_lista";
-    }
 
+
+    }
 
     @GetMapping("/nuevo")
     public String nuevoLibro(Model model) {
@@ -66,4 +72,6 @@ public class LibroController {
         libroService.eliminarLibro(idLibro);
         return "redirect:/libros/todos";
     }
+
+
 }

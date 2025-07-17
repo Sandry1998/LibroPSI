@@ -4,6 +4,7 @@ package com.ceatformacion.libropsi.services;
 import com.ceatformacion.libropsi.modell.Libro;
 import com.ceatformacion.libropsi.repository.HistorialRepository;
 import com.ceatformacion.libropsi.repository.LibroRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class LibroService {
         repo.save(libro);
     }
 
+    @Transactional
     public void eliminarLibro(int idLibro) {
         histRepo.deleteByLibroIdLibro(idLibro);
         repo.deleteById(idLibro);

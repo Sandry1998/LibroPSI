@@ -66,10 +66,19 @@ public class HistorialController {
     }
 
     @GetMapping("/eliminar/{idHistorial}")
-    public String eliminarHistorial(@PathVariable int idHistorial, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+    public String eliminarHistorial(@PathVariable int idHistorial,
+                                    @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+
         historialService.eliminarHistorial(idHistorial);
+
+        // Redirige según el rol
+        if (usuarioDetails != null && usuarioDetails.getUsuario().getRol().equals("ADMIN")) {
+            return "redirect:/libros/todos";
+        }
+
         return "redirect:/historial/usuario";
     }
+
 
     @GetMapping("/admin")
     public String historialAdmin(Model model) {

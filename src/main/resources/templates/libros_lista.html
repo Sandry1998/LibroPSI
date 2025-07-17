@@ -261,7 +261,6 @@
 <div th:if="${param.error}" style="margin-bottom: 20px;">
     <p style="color: red; font-weight: bold;" th:text="${param.error}"></p>
 </div>
-
 <table class="table table-bordered mt-3">
     <thead>
     <tr>
@@ -281,34 +280,31 @@
         <td th:text="${libro.editorial}"></td>
         <td th:text="${libro.paginas}"></td>
         <td>
-            <!--Boton de reservar solo para User-->
+            <!-- ADMIN: Editar, Eliminar, Contador -->
+            <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <a th:href="@{'/libros/editar/' + ${libro.idLibro}}" class="btn btn-warning btn-sm">Editar</a>
+                <a th:href="@{'/libros/eliminar/' + ${libro.idLibro}}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Seguro que deseas eliminar este libro?')">Eliminar</a>
+            </div>
+
+            <!-- USER: Reservar -->
             <form th:action="@{'/historial/reservar/' + ${libro.idLibro}}" method="post"
                   th:if="${#authorization.expression('hasRole(''USER'')')}">
                 <button type="submit" class="btn-icono">Reservar</button>
             </form>
-
-            <!-- Editar/Eliminar solo para ADMIN -->
-            <a th:href="@{'/libros/editar/' + ${libro.idLibro}}" class="btn btn-warning btn-sm"
-               th:if="${#authorization.expression('hasRole(''ADMIN'')')}">Editar</a>
-            <a th:href="@{'/libros/eliminar/' + ${libro.idLibro}}" class="btn btn-danger btn-sm"
-               th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-               onclick="return confirm('¿Seguro que deseas eliminar este libro?')">Eliminar</a>
         </td>
     </tr>
     </tbody>
 </table>
-
 <!-- Botones para ADMIN -->
 <div class="actions-container" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
     <a class="btn btn-success" th:href="@{/libros/nuevo}">Agregar nuevo libro</a>
     <a class="btn btn-info" th:href="@{/historial/admin}">Ver historial de usuarios</a>
 </div>
-
 <!-- Botón para USER -->
 <div class="actions-container" th:if="${#authorization.expression('hasRole(''USER'')')}">
     <a class="btn btn-secondary" th:href="@{/historial/usuario}">Ver mis reservas</a>
 </div>
-
 <!-- Cerrar sesión -->
 <div class="container">
     <form th:action="@{/logout}" method="post">
