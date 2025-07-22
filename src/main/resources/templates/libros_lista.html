@@ -219,8 +219,9 @@
         }
         .container {
             text-align: center;
-            margin-top: 20px;
+            margin-left: -550px;
             padding: 0;
+
         }
 
         /* Responsivo para pantallas pequeñas */
@@ -286,6 +287,14 @@
     </style>
 </head>
 <body>
+<!-- Cerrar sesión -->
+<div class="container">
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn-icon">
+            <img src="/images/exit.png" alt="Botón logout">
+        </button>
+    </form>
+</div>
 <div class="header-container">
     <h1 class="titulo-principal-sombreado-hover">
         <strong>LISTADO DE LIBROS</strong> - <span th:text="${nombreUsuario}" style="text-transform: uppercase;">Usuario</span>
@@ -337,7 +346,7 @@
     </tbody>
 </table>
 <div th:if="${#lists.isEmpty(libros)}" class="no-resultados">
-    No hay libros registrados actualmente.
+    No hay libros registrados con este nombre actualmente.
 </div>
 <!-- Botones para ADMIN -->
 <div class="actions-container" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
@@ -347,14 +356,6 @@
 <!-- Botón para USER -->
 <div class="actions-container" th:if="${#authorization.expression('hasRole(''USER'')')}">
     <a class="btn btn-secondary" th:href="@{/historial/usuario}">Ver mis reservas</a>
-</div>
-<!-- Cerrar sesión -->
-<div class="container">
-    <form th:action="@{/logout}" method="post">
-        <button type="submit" class="btn-icon">
-            <img src="/images/exit.png" alt="Botón logout">
-        </button>
-    </form>
 </div>
 </body>
 </html>
