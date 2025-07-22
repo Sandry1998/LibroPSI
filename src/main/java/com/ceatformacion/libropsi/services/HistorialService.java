@@ -37,6 +37,9 @@ public class HistorialService {
         return historialRepository.findById(idHistorial);
     }
 
+    public List<Historial> obtenerPorNombreUsuario(String nombre) {
+        return historialRepository.findByUsuario_UsernameContainingIgnoreCase(nombre);
+    }
 
 
 }

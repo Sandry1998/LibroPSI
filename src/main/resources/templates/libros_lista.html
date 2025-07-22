@@ -28,7 +28,7 @@
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
             transition: color 0.4s ease;
             color: white;
-            margin: 0.3em 0;
+            margin-top: 100px !important;
             font-size: 2.5em;
         }
 
@@ -250,7 +250,46 @@
                 font-size: 10px;
             }
         }
+        .busqueda-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
 
+        .busqueda-input {
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 250px;
+            font-family: 'Georgia', serif;
+        }
+
+        .btn-lupa {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .icono-lupa {
+            height: 28px;
+            width: 28px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-lupa:hover .icono-lupa {
+            transform: scale(1.1);
+        }
+        .no-resultados {
+            text-align: center;
+            font-style: italic;
+            font-size: 1.6em;
+            color: white;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -263,6 +302,15 @@
 <div th:if="${param.error}" style="margin-bottom: 20px;">
     <p style="color: red; font-weight: bold;" th:text="${param.error}"></p>
 </div>
+<button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
+    <img src="/images/lupa.png" alt="Buscar" style="height: 24px;">
+</button>
+<form th:action="@{/libros/todos}" method="get" class="busqueda-container">
+    <input type="text" name="titulo" th:value="${titulo}" placeholder="Buscar por título" class="busqueda-input"/>
+    <button type="submit" class="btn-lupa">
+        <img src="/images/lupa.png" alt="Buscar" class="icono-lupa">
+    </button>
+</form>
 <table class="table table-bordered mt-3">
     <thead>
     <tr>
@@ -298,6 +346,9 @@
     </tr>
     </tbody>
 </table>
+<div th:if="${#lists.isEmpty(libros)}" class="no-resultados">
+    No hay libros registrados actualmente.
+</div>
 <!-- Botones para ADMIN -->
 <div class="actions-container" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
     <a class="btn btn-success" th:href="@{/libros/nuevo}">Agregar nuevo libro</a>

@@ -35,19 +35,27 @@ public class LibroController {
     private HistorialRepository historialRepository;
 
     @GetMapping("/todos")
-    public String verLibros(Model model, @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
-        List<Libro> libros = libroService.obtenerTodos();
-        model.addAttribute("libros", libros);
+    public String verLibros(@RequestParam(required = false) String titulo,
+                            Model model,
+                            @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        List<Libro> libros;
 
-        // Nombre del usuario en mayúsculas
+        if (titulo != null && !titulo.trim().isEmpty()) {
+            libros = libroService.buscarPorTitulo(titulo);
+        } else {
+            libros = libroService.obtenerTodos();
+        }
+
+        model.addAttribute("libros", libros);
+        model.addAttribute("titulo", titulo); // para mantener el valor en el input
+
         if (usuarioDetails != null && usuarioDetails.getUsuario() != null) {
             model.addAttribute("nombreUsuario", usuarioDetails.getUsuario().getUsername().toUpperCase());
-
         }
+
         return "libros_lista";
-
-
     }
+
 
     @GetMapping("/nuevo")
     public String nuevoLibro(Model model) {

@@ -81,10 +81,22 @@ public class HistorialController {
 
 
     @GetMapping("/admin")
-    public String historialAdmin(Model model) {
-        List<Historial> historial = historialService.obtenerTodos()
-                        .stream().filter(h->h.getLibro() != null).toList();
-        model.addAttribute("historial", historial);
+    public String historialAdmin(@RequestParam(value = "usuario", required = false) String usuarioNombre,
+                                 Model model) {
+        List<Historial> historial;
+
+        if (usuarioNombre != null && !usuarioNombre.isEmpty()) {
+            historial = historialService.obtenerPorNombreUsuario(usuarioNombre);
+        } else {
+            historial = historialService.obtenerTodos();
+        }
+
+        // Evitar nulos por libros eliminados
+        List<Historial> historialFiltrado = historial.stream()
+                .filter(h -> h.getLibro() != null)
+                .toList();
+
+        model.addAttribute("historial", historialFiltrado);
         return "historial_admin";
     }
 

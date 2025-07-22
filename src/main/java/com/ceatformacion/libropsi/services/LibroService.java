@@ -19,6 +19,10 @@ public class LibroService {
     @Autowired
     private HistorialRepository histRepo;
 
+    @Autowired
+    private LibroRepository libroRepository;
+
+
     public List<Libro> obtenerTodos() {
         return repo.findAll();
     }
@@ -36,4 +40,11 @@ public class LibroService {
         histRepo.deleteByLibroIdLibro(idLibro);
         repo.deleteById(idLibro);
     }
+
+    public List<Libro> buscarPorTitulo(String titulo) {
+        return libroRepository.findByTituloContainingIgnoreCase(titulo);
+    }
+
+
+
 }

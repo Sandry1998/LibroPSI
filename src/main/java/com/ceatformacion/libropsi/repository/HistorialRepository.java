@@ -17,4 +17,6 @@ public interface HistorialRepository extends JpaRepository<Historial, Integer> {
 
     void deleteByLibroIdLibro(int idLibro);
 
+    List<Historial> findByUsuario_UsernameContainingIgnoreCase(String username);
+
 }
