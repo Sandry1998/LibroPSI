@@ -295,9 +295,6 @@
 <div th:if="${param.error}" style="margin-bottom: 20px;">
     <p style="color: red; font-weight: bold;" th:text="${param.error}"></p>
 </div>
-<button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-    <img src="/images/lupa.png" alt="Buscar" style="height: 24px;">
-</button>
 <form th:action="@{/libros/todos}" method="get" class="busqueda-container">
     <input type="text" name="titulo" th:value="${titulo}" placeholder="Buscar por título" class="busqueda-input"/>
     <button type="submit" class="btn-lupa">
